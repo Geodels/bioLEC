@@ -1,4 +1,4 @@
-# bioLEC Biodiversity metric based on landscape elevational connectivity
+# bioLEC - Biodiversity metric based on landscape elevational connectivity
 
 This folder contains notebooks to compute **landscape elevational connectivity** described in Bertuzzo et al. (2016) using a parallel LECmetrics python code.
 
