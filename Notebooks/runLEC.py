@@ -15,9 +15,9 @@ biodiv = LEC.LEC(filename='dataset/dem.csv',periodic=False,symmetric=False,
 time0 = time.clock()
 biodiv.computeLEC(timeit=True, fout=500)
 if biodiv.rank == 0:
-    print 'Compute LEC function took ',time.clock()-time0
+    print('Compute LEC function took ',time.clock()-time0)
 
 time0 = time.clock()
 biodiv.writeLEC('dataset/LECout.csv')
 if biodiv.rank == 0:
-    print 'Output function took ',time.clock()-time0
+    print('Output function took ',time.clock()-time0)

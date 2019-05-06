@@ -111,7 +111,7 @@ class morphoGrid:
                 x = np.append(x, coords[:,0])
                 y = np.append(y, coords[:,1])
                 z = np.append(z, coords[:,2])
-            
+
         if self.bbox == None:
             self.nx = int((x.max() - x.min())/self.dx+1)
             self.ny = int((y.max() - y.min())/self.dx+1)
@@ -135,8 +135,8 @@ class morphoGrid:
             self.ny = int((self.bbox[3] - self.bbox[1])/self.dx+1)
             self.x = np.linspace(self.bbox[0], self.bbox[2], self.nx)
             self.y = np.linspace(self.bbox[1], self.bbox[3], self.ny)
-        
-            
+
+
         self.x, self.y = np.meshgrid(self.x, self.y)
         xyi = np.dstack([self.x.flatten(), self.y.flatten()])[0]
         XY = np.column_stack((x,y))
@@ -145,7 +145,7 @@ class morphoGrid:
         z_vals = z[indices][:,:,0]
         d_vals = d[indices][:,:,0]
         c_vals = c[indices][:,:,0]
-        
+
         bi = np.zeros(len(xyi))
         if basinIDs is not None:
             base= basinIDs
@@ -156,18 +156,18 @@ class morphoGrid:
             bi[onIDs] = np.average(b_vals[onIDs,:],weights=(1./distancesf[onIDs,:]), axis=1)
             if len(onIDs) > 0:
                 bi[onIDs] = base[indicesf[onIDs,0],0]
-            
+
         zi = np.zeros(len(xyi))
         di = np.zeros(len(xyi))
         ci = np.zeros(len(xyi))
-        
+
         onIDs = np.where(distances[:,0] > 0)[0]
         zi[onIDs] = np.average(z_vals[onIDs,:],weights=(1./distances[onIDs,:]), axis=1)
         di[onIDs] = np.average(d_vals[onIDs,:],weights=(1./distances[onIDs,:]), axis=1)
         ci[onIDs] = np.average(c_vals[onIDs,:],weights=(1./distances[onIDs,:]), axis=1)
 
         onIDs = np.where(distances[:,0] == 0)[0]
-        
+
         if len(onIDs) > 0:
             zi[onIDs] = z[indices[onIDs,0],0]
             di[onIDs] = d[indices[onIDs,0],0]

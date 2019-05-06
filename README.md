@@ -5,7 +5,7 @@ This folder contains notebooks to compute **landscape elevational connectivity**
 ***
 
 <div align="center">
-    <img width=1000 src="https://github.com/Geodels/bioLEC/blob/master/images/fig1.png" alt="sketch LEC computation" title="LEC computation."</img>
+    <img width=1000 src="https://github.com/Geodels/bioLEC/blob/master/Notebooks/images/fig1.png" alt="sketch LEC computation" title="LEC computation."</img>
 </div>
 
 
@@ -22,7 +22,7 @@ The tool can be used to compute the LEC for any landscape file (X,Y,Z) and IPyth
 ***
 
 <div align="center">
-    <img width=1000 src="https://github.com/Geodels/bioLEC/blob/master/images/fig3.png" alt="sketch Badlands" title="LEC computation."</img>
+    <img width=1000 src="https://github.com/Geodels/bioLEC/blob/master/Notebooks/images/fig3.png" alt="sketch Badlands" title="LEC computation."</img>
 </div>
 
 

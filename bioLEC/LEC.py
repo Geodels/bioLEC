@@ -144,7 +144,7 @@ class LEC:
         elif sigmav is not None:
             sigma = sigmav
         else:
-            print 'Species niche width is not specified!'
+            print('Species niche width is not specified!')
             sigma = (self.data.max() - self.data.min()) * sigmap
 
         self.sigma2 = 2. * np.square(sigma)
@@ -241,7 +241,7 @@ class LEC:
                 steps =   int(displacements[self.rank+1]) - int(displacements[self.rank])
             else:
                 steps = self.nNodes - int(displacements[self.rank])
-            print 'RUN - rank ',self.rank,' start ID ',rsID[self.rank],' end ID ',reID[self.rank]
+            print('RUN - rank ',self.rank,' start ID ',rsID[self.rank],' end ID ',reID[self.rank])
             del displacements
             gc.collect()
         else:
@@ -257,7 +257,7 @@ class LEC:
             #for c in range(self.nc0,self.nc1):
                 if timeit:
                     if k%fout==0 and k>0:
-                        print 'Rank: ',self.rank,'  - Compute Cij ',time.clock()-t1,' step ',k,' out of ',steps
+                        print('Rank: ',self.rank,'  - Compute Cij ',time.clock()-t1,' step ',k,' out of ',steps)
                         t1 = time.clock()
                 localLEC += np.exp(-self._computeMinPath(r, c)/self.sigma2)
                 k += 1
