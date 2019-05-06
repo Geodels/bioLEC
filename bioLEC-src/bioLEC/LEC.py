@@ -1,20 +1,21 @@
-##~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~##
-##                                                                                                                                                                                                              ##
-##  This file forms part of the Badlands surface processes modelling companion.                                                                       ##
-##                                                                                                                                                                                                              ##
-##  For full license and copyright information, please refer to the LICENSE.md file                                                                     ##
-##  located at the project root, or contact the authors.                                                                                                                    ##
-##                                                                                                                                                                                                              ##
-##~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~##
 """
-Local species richness is found to be related to the landscape elevational connectivity, as quantified
-by the landscape elevational connectivity metric (LEC) that applies tools of complex network theory to
-measure the closeness of a site to others with similar habitat.
+Copyright 2019 Tristan Salles
 
-Ref:
-E. Bertuzzo et al., 2016: Geomorphic controls on elevational gradients of species richness - PNAS -
-ww.pnas.org/cgi/doi/10.1073/pnas.1518922113
+bioLEC is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or any later version.
+
+bioLEC is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with bioLEC.  If not, see <http://www.gnu.org/licenses/>.
 """
+
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 import gc
 import time
@@ -27,36 +28,50 @@ import warnings
 warnings.filterwarnings('ignore')
 warnings.simplefilter(action = "ignore", category = FutureWarning)
 
-class LEC:
+class landscapeConnectivity(object):
     """
     Class for building landscape elevational connectivity.
+
+    Local species richness is found to be related to the landscape elevational connectivity, as quantified
+    by the landscape elevational connectivity metric (LEC) that applies tools of complex network theory to
+    measure the closeness of a site to others with similar habitat.
+
+    Algorithm
+    ---------
+    E. Bertuzzo et al., 2016: Geomorphic controls on elevational gradients of species richness - PNAS
+    ww.pnas.org/cgi/doi/10.1073/pnas.1518922113
+    Bertuzzo, E. and Carrara, F. and Mari, L. and Altermatt, F. and Rodriguez-Iturbe, I. and Rinaldo, A. (2016)
+    Geomorphic controls on elevational gradients of species richness
+    Proceedings of the National Academy of Sciences 113(7), 1737-1742
+    doi:10.1073/pnas.1518922113
+
+
+    Parameters
+    ----------
+    filename    : (string) csv file name containing regularly spaced elevation grid
+    periodic    : (bool default: False) applied periodic boundary to the elevation grid
+    symmetric   : (bool default: False) applied symmetric boundary to the elevation grid
+    sigmap      : (float default: 0.1) species niche width percentage  based on elevation extent
+    sigmav      : (float default: None) species niche fixed width values
+    connected   : (bool default: True) computes the path based on the diagonal moves as well as the axial ones
+    delimiter   : (string default: r'\s+') elevation grid csv delimiter
+    header      : (int or list of ints) row number(s) to use as the column names, and the start of the data
+
+    Notes
+    -----
+    Landscape elevational connectivity (LEC) quantifies the closeness of a site to all others with
+    similar elevation. Such closeness is computed over a graph whose edges represent connections
+    among sites and whose weights are proportional to the cost of spreading through patches at
+    different elevation.
+
+    Although LEC simply depends on the elevation field and on the niche width, LEC predicts well the
+    alpha-diversity simulated by full metacommunity models. LEC is able to capture the variability
+    of diversity hosted at the same elevation, as opposed to a simpler predictor like the elevation
+    frequency.
     """
 
     def __init__(self, filename=None, periodic=False, symmetric=False, sigmap=0.1, sigmav=None,
                         connected=True, delimiter=r'\s+', header=None):
-        """
-        Initialization function.
-
-        Parameters
-        ----------
-        variable : filename
-            File name containing regularly spaced elevation grid.
-
-        variable : periodic
-            Applied periodic boundary to the elevation grid.
-
-        variable : symmetric
-            Applied symmetric boundary to the elevation grid.
-
-        variable : sigmap
-            Species niche width percentage  based on elevation extent
-
-        variable : sigmav
-            Species niche fixed width values
-
-        variable : connected
-            If True, computes the path based on the diagonal moves as well as the axial ones.
-        """
 
         # Read DEM file
         self.demfile = filename
@@ -166,15 +181,38 @@ class LEC:
 
         Parameters
         ----------
-        variables: c, r
-            Rocw, column indices of the consieder point.
+        c : (int) row indices of a consider point
+        r : (int) column indices of a consider point
+
+        Returns
+        -------
+        The minimum-cost path to the specified ending indices from the specified starting indices.
+
+        Notes
+        -----
+        This function relies on scikit-image (image processing in python) and finds
+        distance-weighted minimum cost paths through an n-d costs array.
+
+        The calculation is based on MCP_Geometric and differs from MCP in that the cost
+        of a path is not simply the sum of the costs along that path.
+
+        This class instead assumes that the costs array contains at each position the “cost”
+        of a unit distance of travel through that position. For example, a move (in 2-d) from (1, 1)
+        to (1, 2) is assumed to originate in the center of the pixel (1, 1) and terminate in the
+        center of (1, 2). The entire move is of distance 1, half through (1, 1) and half
+        through (1, 2); thus the cost of that move is (1/2)*costs[1,1] + (1/2)*costs[1,2].
+
+        On the other hand, a move from (1, 1) to (2, 2) is along the diagonal and is sqrt(2)
+        in length. Half of this move is within the pixel (1, 1) and the other half in (2, 2),
+        so the cost of this move is calculated as (sqrt(2)/2)*costs[1,1] + (sqrt(2)/2)*costs[2,2].
+
         """
         # Create the cost surface based on the square of the difference in elevation between the considered
         # node and all the others vertices
         weight = np.square( self.data - self.data[r, c] )
 
         # From the weight-surface we create a 'landscape graph' object which can then be
-        # analysed using least-cost modelling
+        # analysed using distance-weighted minimum cost path
         cost = graph.MCP_Geometric( weight, fully_connected=self.connected )
 
         # Calculate the least-cost distance from the start cell to all other cells
@@ -183,6 +221,16 @@ class LEC:
     def _splitRowWise(self):
         """
         From the number of processors available split the array in equal number row wise.
+        This simple partitioning is used to perform LEC computation in parallel.
+
+        Returns
+        -------
+        disps   : 1D array of integers, shape (np, ) where np is the number of processors
+            number of nodes to consider on each partition
+        startID : 1D array of integers, shape (np, ) where np is the number of processors
+            starting index for each partition
+        endID   : 1D array of integers, shape (np, ) where np is the number of processors
+            ending index for each partition
         """
 
         tmpA = np.zeros((self.nr, self.nc))
@@ -204,9 +252,9 @@ class LEC:
         del tmpA
         gc.collect()
 
-        return disps, endID.astype(int), startID
+        return disps, startID, endID.astype(int)
 
-    def computeLEC(self, timeit=False, fout=500):
+    def computeLEC(self, fout=500):
         """
         This function computes the minimum path arrays for all nodes in the given dataset and
         the measure of the closeness of site j to i in terms of elevational connectivity. Then it
@@ -215,11 +263,8 @@ class LEC:
 
         Parameters
         ----------
-        variables: fout
-            Output frequency.
+        fout : (integer default: 500) output frequency.
 
-        variables: timeit
-            Boolean specifying is timing is required.
         """
 
         startID = None
@@ -227,26 +272,22 @@ class LEC:
         disps = None
 
         if self.rank == 0:
-            disps, endID, startID = self._splitRowWise()
+            disps, startID, endID  = self._splitRowWise()
 
         rsID = self.comm.bcast(startID, root=0)
         reID = self.comm.bcast(endID, root=0)
 
-        if timeit:
-            displacements = self.comm.bcast(disps, root = 0)
-            del disps
-            gc.collect()
-            t1 = time.clock()
-            if self.rank < self.size-1:
-                steps =   int(displacements[self.rank+1]) - int(displacements[self.rank])
-            else:
-                steps = self.nNodes - int(displacements[self.rank])
-            print('RUN - rank ',self.rank,' start ID ',rsID[self.rank],' end ID ',reID[self.rank])
-            del displacements
-            gc.collect()
+        displacements = self.comm.bcast(disps, root = 0)
+        del disps
+        gc.collect()
+        t1 = time.clock()
+        if self.rank < self.size-1:
+            steps =   int(displacements[self.rank+1]) - int(displacements[self.rank])
         else:
-            del disps
-            gc.collect()
+            steps = self.nNodes - int(displacements[self.rank])
+        print('RUN - rank ',self.rank,' start ID ',rsID[self.rank],' end ID ',reID[self.rank])
+        del displacements
+        gc.collect()
 
         lc = reID[self.rank]-rsID[self.rank]
         localLEC = np.zeros((self.nr,self.nc))
@@ -254,11 +295,9 @@ class LEC:
         k = 0
         for r in range(rsID[self.rank],reID[self.rank]):
             for c in range(0,self.nc):
-            #for c in range(self.nc0,self.nc1):
-                if timeit:
-                    if k%fout==0 and k>0:
-                        print('Rank: ',self.rank,'  - Compute Cij ',time.clock()-t1,' step ',k,' out of ',steps)
-                        t1 = time.clock()
+                if k%fout==0 and k>0:
+                    print('Rank: ',self.rank,'  - Compute Cij ',time.clock()-t1,' step ',k,' out of ',steps)
+                    t1 = time.clock()
                 localLEC += np.exp(-self._computeMinPath(r, c)/self.sigma2)
                 k += 1
 
@@ -292,16 +331,11 @@ class LEC:
 
     def writeLEC(self, filename='LECout.csv'):
         """
-        This function builds the landscape elevational connectivity array from previously computed
-        measure of closeness calculation.
+        This function writes the computed landscape elevational connectivity array to a file.
 
         Parameters
         ----------
-        variables: filename
-            Output file name.
-
-        variables: timeit
-            Boolean specifying is timing is required.
+        filename : (string) output file name.
         """
 
         if self.rank == 0:

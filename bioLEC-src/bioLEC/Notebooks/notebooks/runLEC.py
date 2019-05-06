@@ -13,7 +13,7 @@ biodiv = LEC.LEC(filename='dataset/dem.csv',periodic=False,symmetric=False,
                  delimiter=',',header=0)
 
 time0 = time.clock()
-biodiv.computeLEC(timeit=True, fout=500)
+biodiv.computeLEC(fout=500)
 if biodiv.rank == 0:
     print('Compute LEC function took ',time.clock()-time0)
 
