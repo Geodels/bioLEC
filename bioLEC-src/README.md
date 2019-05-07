@@ -1,13 +1,13 @@
 # bioLEC - Biodiversity metric based on landscape elevational connectivity
 
+
+[![PyPI](https://img.shields.io/pypi/v/bioLEC.svg)](https://pypi.org/project/bioLEC/)
+
 This folder contains notebooks to compute **landscape elevational connectivity** described in Bertuzzo et al. (2016) using a parallel LECmetrics python code.
 
 ***
 
-<div align="center">
-    <img width=1000 src="https://github.com/Geodels/bioLEC/blob/master/Notebooks/images/fig1.png" alt="sketch LEC computation" title="LEC computation."</img>
-</div>
-
+![LEC computation](https://github.com/Geodels/bioLEC/blob/master/Notebooks/images/fig1.jpg?raw=true)
 
 ***
 
@@ -21,10 +21,7 @@ The tool can be used to compute the LEC for any landscape file (X,Y,Z) and IPyth
 
 ***
 
-<div align="center">
-    <img width=1000 src="https://github.com/Geodels/bioLEC/blob/master/Notebooks/images/fig3.png" alt="sketch Badlands" title="LEC computation."</img>
-</div>
-
+![LEC computation](https://github.com/Geodels/bioLEC/blob/master/Notebooks/images/fig3.jpg?raw=true)
 
 ***
 
