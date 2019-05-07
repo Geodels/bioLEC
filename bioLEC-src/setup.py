@@ -4,8 +4,6 @@ from numpy.distutils.core import setup, Extension
 import glob
 import subprocess
 
-sys_includes = []
-
 if __name__ == "__main__":
     setup(name = 'bioLEC',
           author            = "Tristan Salles",
@@ -15,13 +13,17 @@ if __name__ == "__main__":
           description       = "A Python interface to compute biodiversity metric based on landscape elevational connectivity.",
           long_description = open('README.md').read(),
           long_description_content_type = "text/markdown",
-          ext_modules       = [ext],
           packages          = ['bioLEC'],
+          install_requires  = [
+                        'numpy',
+                        'scipy>=0.15.0',
+                        'pandas',
+                        'mpi4py',
+                        'scikit-image'],
+          python_requires   = '>=2.7, >=3.5',
           package_data      = {'bioLEC': ['Notebooks/*ipynb',
                                           'Notebooks/dataset/*',
-                                          'Notebooks/images/*'] ,'bioLEC':
-                                          sys_includes},
-          data_files=[('bioLEC',sys_includes)],
+                                          'Notebooks/images/*'] },
           include_package_data = True,
           classifiers       = ['Programming Language :: Python :: 2',
                                'Programming Language :: Python :: 2.6',
