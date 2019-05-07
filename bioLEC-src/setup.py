@@ -27,7 +27,7 @@ if __name__ == "__main__":
           author            = "Tristan Salles",
           author_email      = "tristan.salles@sydney.edu.au",
           url               = "https://github.com/Geodels/bioLEC",
-          version           = "0.0.3",
+          version           = "0.0.4",
           description       = "A Python interface to compute biodiversity metric based on landscape elevational connectivity.",
           long_description  = long_description,
           long_description_content_type='text/markdown',
