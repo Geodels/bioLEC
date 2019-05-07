@@ -70,6 +70,7 @@ RUN python3 -m pip install --no-cache-dir setuptools wheel && \
     litho1pt0 \
     scikit-image \
     cmocean \
+    bioLEC \
     lavavu==1.2.52 && \
     USE_SETUPCFG=0 \
     HDF5_INCDIR=/usr/include/hdf5/serial \
