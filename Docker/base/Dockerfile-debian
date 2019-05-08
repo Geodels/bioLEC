@@ -1,12 +1,12 @@
 # docker login --username=yourhubusername --password=yourpassword
-# docker build -t geodels/py3-lavavu-notebook-bundle:latest .
-# sudo docker push geodels/py3-lavavu-notebook-bundle:latest
+# docker build -t geodels/geodels-bundle:latest .
+# sudo docker push geodels/geodels-bundle:latest
 
 FROM debian:latest
 
 MAINTAINER https://github.com/Geodels/bioLEC
-ENV IMAGENAME=geodels/py3-lavavu-notebook-bundle
-ENV PROJ_NAME=py3-lavavu-notebook-bundle
+ENV IMAGENAME=geodels/geodels-bundle
+ENV PROJ_NAME=geodels-bundle
 
 RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \

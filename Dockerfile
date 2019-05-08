@@ -2,7 +2,7 @@
 #  Short docker file to distribute some notebooks
 #################################################
 
-ARG FROMIMG_ARG=geodels/py3-lavavu-notebook-bundle:latest
+ARG FROMIMG_ARG=geodels/geodels-bundle:latest
 FROM ${FROMIMG_ARG}
 
 ##################################################

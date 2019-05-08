@@ -3,7 +3,7 @@
 # Don't forget to increment the version number if you want to keep the old stuff
 # Run from the project top folder
 
-FROM_IMG="geodels/py3-lavavu-notebook-bundle:latest"
+FROM_IMG="geodels/geodels-bundle:latest"
 IMAGENAME=geodels/biolec:latest
 PROJ_NAME=bioLEC
 NB_PORT=8888
