@@ -10,6 +10,8 @@ FROM ${FROMIMG_ARG}
 
 USER root
 
+RUN python3 -m pip install --no-cache-dir --upgrade \
+  pip
 RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
     gettext && \
