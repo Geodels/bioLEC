@@ -1,3 +1,7 @@
+# docker login --username=yourhubusername --password=yourpassword
+# docker build -t geodels/py3-lavavu-notebook-bundle:latest .
+# sudo docker push geodels/py3-lavavu-notebook-bundle:latest
+
 FROM debian:latest
 
 MAINTAINER https://github.com/Geodels/bioLEC
@@ -77,9 +81,12 @@ RUN python3 -m pip install --no-cache-dir setuptools wheel && \
     python3 -m pip install --no-cache-dir git+https://github.com/Unidata/netcdf4-python
 
 RUN apt-get update -qq && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends libopenmpi-dev
+    DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends openmpi-bin libopenmpi-dev
 
-RUN python3 -m pip install bioLEC
+RUN python3 -m pip install --no-cache-dir \
+    pyevtk \
+    mpi4py \
+    bioLEC
 
 # Jovyan user / group
 

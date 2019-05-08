@@ -11,7 +11,7 @@ This folder contains notebooks to compute **landscape elevational connectivity**
 
 ***
 
-Notebooks environment will not be the best option for large landscape models and we will recommand the use of the python script: `runLEC.py` in HPC environment. the code will need to be
+Notebooks environment will not be the best option for large landscape models and we will recommend the use of the python script: `runLEC.py` in HPC environment. the code will need to be
 
 ```bash
 mpirun -np 400 python runLEC.py

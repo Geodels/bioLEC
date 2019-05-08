@@ -21,12 +21,9 @@ ENV MODULE_DIR="bioLEC-src"
 ADD --chown=jovyan:jovyan $MODULE_DIR $MODULE_DIR
 RUN   cd $MODULE_DIR && python3 -m pip install --no-cache-dir --no-deps --upgrade .
 
-
 RUN ipython3 -c 'import bioLEC; bioLEC.documentation.install_documentation(path="Notebooks")'
 ADD  --chown=jovyan:jovyan Notebooks/0-StartHere.ipynb Notebooks/0-StartHere.ipynb
 
-
-# This file is too big to bundle with the pip installation
 
 RUN mkdir -p /usr/local/files && chown -R jovyan:jovyan /usr/local/files
 ADD --chown=jovyan:jovyan Docker/scripts  /usr/local/files
@@ -77,7 +74,7 @@ RUN find -name \*.ipynb  -print0 | xargs -0 jupyter trust
 # expose notebook port server port
 EXPOSE $NB_PORT
 
-VOLUME /home/jovyan/$NB_DIR/user_data
+VOLUME /home/jovyan/$NB_DIR/share
 
 # note we use xvfb which to mimic the X display for lavavu
 ENTRYPOINT ["/usr/local/bin/xvfbrun.sh"]

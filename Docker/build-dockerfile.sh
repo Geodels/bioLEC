@@ -1,13 +1,14 @@
 #!/bin/sh
 
 # Don't forget to increment the version number if you want to keep the old stuff
+# Run from the project top folder
 
 FROM_IMG="geodels/py3-lavavu-notebook-bundle:latest"
 IMAGENAME=geodels/biolec:latest
 PROJ_NAME=bioLEC
 NB_PORT=8888
 NB_PASSWD=""
-NB_DIR=Notebooks
+NB_DIR=BIOLEC/Notebooks
 START_NB="0-StartHere.ipynb"
 
 docker build -t $IMAGENAME \

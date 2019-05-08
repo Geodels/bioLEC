@@ -29,7 +29,6 @@ def install_documentation(path="./bioLEC-Notebooks"):
        - lavavu: interactive viewer for an alternative means of viewing cartesian_meshes
        - cartopy: for plotting map examples
     bioLEC dependencies are explicitly imported into the notebooks including:
-       - gc
        - numpy
        - scipy (for k-d tree point location)
        - skimage
