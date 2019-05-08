@@ -25,9 +25,9 @@ RUN apt-get update -qq && \
 
 ### bioLEC - Notebooks
 
-ENV MODULE_DIR="bioLEC-src"
-ADD --chown=jovyan:jovyan $MODULE_DIR $MODULE_DIR
-RUN   cd $MODULE_DIR && python3 -m pip install --no-cache-dir --no-deps --upgrade .
+#ENV MODULE_DIR="bioLEC-src"
+#ADD --chown=jovyan:jovyan $MODULE_DIR $MODULE_DIR
+#RUN   cd $MODULE_DIR && python3 -m pip install --no-cache-dir --no-deps --upgrade .
 
 
 RUN ipython3 -c 'import bioLEC; bioLEC.documentation.install_documentation(path="Notebooks")'
