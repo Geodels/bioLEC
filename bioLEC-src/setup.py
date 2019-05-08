@@ -18,10 +18,6 @@ this_directory = path.abspath(path.dirname(__file__))
 with io.open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
-this_directory = path.abspath(path.dirname(__file__))
-with io.open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
-    long_description = f.read()
-
 if __name__ == "__main__":
     setup(name = 'bioLEC',
           author            = "Tristan Salles",

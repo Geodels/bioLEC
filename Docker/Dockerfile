@@ -2,15 +2,8 @@
 #  Short docker file to distribute some notebooks
 #################################################
 
-#ARG FROM_IMG="geodels/py3-lavavu-notebook-bundle:latest"
-#ARG IMAGENAME=geodels/biolec:latest
-#ARG PROJ_NAME=bioLEC
-#ARG NB_PORT=8888
-#ARG NB_PASSWD=""
-#ARG NB_DIR=Notebooks
-#ARG START_NB="0-StartHere.ipynb"
-
-ARG FROMIMG_ARG=geodels/py3-lavavu-notebook-bundle:latest
+ARG FROMIMG_ARG=underworldcode/py3-lavavu-notebook-bundle:0.9.4-debian
+#geodels/py3-lavavu-notebook-bundle:latest
 FROM ${FROMIMG_ARG}
 
 ##################################################
@@ -33,6 +26,10 @@ RUN   cd $MODULE_DIR && python3 -m pip install --no-cache-dir --no-deps --upgrad
 RUN ipython3 -c 'import bioLEC; bioLEC.documentation.install_documentation(path="Notebooks")'
 ADD  --chown=jovyan:jovyan Notebooks/0-StartHere.ipynb Notebooks/0-StartHere.ipynb
 
+
+RUN python3 -m pip install --no-cache-dir --upgrade \
+   jupyterhub \
+   git+https://github.com/OKaluza/LavaVu.git@afa8cd24e6dae7ffbacf9735db8e1affd85fd3df
 
 RUN mkdir -p /usr/local/files && chown -R jovyan:jovyan /usr/local/files
 ADD --chown=jovyan:jovyan Docker/scripts  /usr/local/files
