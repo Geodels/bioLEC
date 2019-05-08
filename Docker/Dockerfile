@@ -2,13 +2,13 @@
 #  Short docker file to distribute some notebooks
 #################################################
 
-ARG FROM_IMG="geodels/py3-lavavu-notebook-bundle:latest"
-ARG IMAGENAME=geodels/biolec:latest
-ARG PROJ_NAME=bioLEC
-ARG NB_PORT=8888
-ARG NB_PASSWD=""
-ARG NB_DIR=Notebooks
-ARG START_NB="0-StartHere.ipynb"
+#ARG FROM_IMG="geodels/py3-lavavu-notebook-bundle:latest"
+#ARG IMAGENAME=geodels/biolec:latest
+#ARG PROJ_NAME=bioLEC
+#ARG NB_PORT=8888
+#ARG NB_PASSWD=""
+#ARG NB_DIR=Notebooks
+#ARG START_NB="0-StartHere.ipynb"
 
 ARG FROMIMG_ARG=geodels/py3-lavavu-notebook-bundle:latest
 FROM ${FROMIMG_ARG}
@@ -25,9 +25,9 @@ RUN apt-get update -qq && \
 
 ### bioLEC - Notebooks
 
-#ENV MODULE_DIR="bioLEC-src"
-#ADD --chown=jovyan:jovyan $MODULE_DIR $MODULE_DIR
-#RUN   cd $MODULE_DIR && python3 -m pip install --no-cache-dir --no-deps --upgrade .
+ENV MODULE_DIR="bioLEC-src"
+ADD --chown=jovyan:jovyan $MODULE_DIR $MODULE_DIR
+RUN   cd $MODULE_DIR && python3 -m pip install --no-cache-dir --no-deps --upgrade .
 
 
 RUN ipython3 -c 'import bioLEC; bioLEC.documentation.install_documentation(path="Notebooks")'
