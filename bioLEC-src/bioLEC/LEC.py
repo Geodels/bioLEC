@@ -84,7 +84,7 @@ class landscapeConnectivity(object):
         dx = ( X[1] - X[0] )
         nx = int((X.max() - X.min())/dx+1)
         ny = int((Y.max() - Y.min())/dx+1)
-        Z = np.reshape(Z,(ny,nx))
+        Z = Z.values.reshape(ny,nx)
         del X
         gc.collect()
         del Y

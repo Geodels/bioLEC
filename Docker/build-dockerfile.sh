@@ -8,7 +8,7 @@ IMAGENAME=geodels/biolec:latest
 PROJ_NAME=bioLEC
 NB_PORT=8888
 NB_PASSWD=""
-NB_DIR=BIOLEC/Notebooks
+NB_DIR=Notebooks
 START_NB="0-StartHere.ipynb"
 
 docker build -t $IMAGENAME \
