@@ -2,6 +2,14 @@
 #  Short docker file to distribute some notebooks
 #################################################
 
+ARG FROM_IMG="geodels/py3-lavavu-notebook-bundle:latest"
+ARG IMAGENAME=geodels/biolec:latest
+ARG PROJ_NAME=bioLEC
+ARG NB_PORT=8888
+ARG NB_PASSWD=""
+ARG NB_DIR=Notebooks
+ARG START_NB="0-StartHere.ipynb"
+
 ARG FROMIMG_ARG=geodels/py3-lavavu-notebook-bundle:latest
 FROM ${FROMIMG_ARG}
 

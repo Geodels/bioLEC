@@ -3,4 +3,5 @@
 build
 dist
 bioLEC.egg-info
-bioLEC/Notebooks/.ipynb_checkpoints/*
+bioLEC-src/bioLEC/Notebooks/.ipynb_checkpoints/*
+bioLEC-src/bioLEC/Notebooks/notebooks/.ipynb_checkpoints/*
