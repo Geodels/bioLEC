@@ -7,6 +7,10 @@ This folder contains notebooks to compute **landscape elevational connectivity**
 
 #### Binder
 
+Launch the demonstration at [mybinder.org](https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks)
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks)
+
 
 ## Navigation / Notebooks
 
