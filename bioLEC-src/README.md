@@ -5,6 +5,13 @@
 
 This folder contains notebooks to compute **landscape elevational connectivity** described in Bertuzzo et al. (2016) using a parallel LECmetrics python code.
 
+#### Binder
+
+
+## Navigation / Notebooks
+
+### Examples
+
 ***
 
 ![LEC computation](https://github.com/Geodels/bioLEC/blob/master/Notebooks/images/fig1.jpg?raw=true)
@@ -25,4 +32,54 @@ The tool can be used to compute the LEC for any landscape file (X,Y,Z) and IPyth
 
 ***
 
-E. Bertuzzo, F. Carrara, L. Mari, F. Altermatt, I. Rodriguez-Iturbe & A. Rinaldo - Geomorphic controls on species richness. **PNAS**, 113(7) 1737-1742, [DOI: 10.1073/pnas.1518922113](http://www.pnas.org/content/113/7/1737), 2016.
+## Installation
+
+### Dependencies
+
+You will need **Python 2.7 or 3.5+**.
+Also, the following packages are required:
+
+ - [`numpy`](http://numpy.org)
+ - [`scipy`](https://scipy.org)
+ - [`pandas`](https://pandas.pydata.org/)
+ - [`mpi4py`](https://pypi.org/project/mpi4py/)
+ - [`scikit-image`](https://scikit-image.org/)
+
+### Installing using pip
+
+You can install `bioLEC` using the
+[`pip package manager`](https://pypi.org/project/pip/) with either version of Python:
+
+```bash
+python2 -m pip install bioLEC
+python3 -m pip install bioLEC
+```
+
+### Installing using Docker
+
+A more straightforward installation which does not depend on specific compilers relies on the [docker](http://www.docker.com) virtualisation system.
+
+To install the docker image and test it is working:
+
+```bash
+   docker pull geodels/biolec:latest
+   docker run --rm geodels/biolec:latest help
+```
+
+To build the dockerfile locally, we provide a script. First ensure you have checked out the source code from github and then run the script in the Docker directory. If you modify the dockerfile and want to push the image to make it publicly available, it will need to be retagged to upload somewhere other than the GEodels repository.
+
+```bash
+git checkout https://github.com/Geodels/bioLEC.git
+cd bioLEC
+source Docker/build-dockerfile.sh
+```
+
+
+## Usage
+
+A series of tests are located in the *tests* subdirectory.
+
+
+## References
+
+  1. E. Bertuzzo, F. Carrara, L. Mari, F. Altermatt, I. Rodriguez-Iturbe & A. Rinaldo - Geomorphic controls on species richness. **PNAS**, 113(7) 1737-1742, [DOI: 10.1073/pnas.1518922113](http://www.pnas.org/content/113/7/1737), 2016.
