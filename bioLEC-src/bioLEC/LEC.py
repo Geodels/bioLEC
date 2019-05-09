@@ -73,6 +73,9 @@ class landscapeConnectivity(object):
     def __init__(self, filename=None, periodic=False, symmetric=False, sigmap=0.1, sigmav=None,
                         connected=True, delimiter=r'\s+', header=None):
 
+        if self.rank == 0:
+            print('bioLEC - LANDSCAPE ELEVATIONAL CONNECTIVITY \n')
+
         # Read DEM file
         self.demfile = filename
         df = pd.read_csv(self.demfile, sep=delimiter, engine='c',
@@ -89,6 +92,11 @@ class landscapeConnectivity(object):
         gc.collect()
         del Y
         gc.collect()
+
+        # Set MPI communications
+        self.comm = MPI.COMM_WORLD
+        self.size = self.comm.Get_size()
+        self.rank = self.comm.Get_rank()
 
         self.connected = connected
         if periodic:
@@ -159,18 +167,15 @@ class landscapeConnectivity(object):
         elif sigmav is not None:
             sigma = sigmav
         else:
-            print('Species niche width is not specified!')
             sigma = (self.data.max() - self.data.min()) * sigmap
+            if self.rank == 0:
+                print('WARNING: Species niche width is not specified!')
+                print('A default width is defined based on elevational range: {:.3f}'.format(sigma))
 
         self.sigma2 = 2. * np.square(sigma)
         self.nNodes = self.nc * self.nr
 
         self.LEC = None
-
-        # Set MPI communications
-        self.comm = MPI.COMM_WORLD
-        self.size = self.comm.Get_size()
-        self.rank = self.comm.Get_rank()
 
         return
 
@@ -267,6 +272,7 @@ class landscapeConnectivity(object):
 
         """
 
+        time0 = time.clock()
         startID = None
         endID = None
         disps = None
@@ -277,6 +283,10 @@ class landscapeConnectivity(object):
         rsID = self.comm.bcast(startID, root=0)
         reID = self.comm.bcast(endID, root=0)
 
+        if self.rank == 0 and self.size > 1:
+            print("\n Define grid partition based on row number for parallel processing... " )
+        self.comm.Barrier()
+
         displacements = self.comm.bcast(disps, root = 0)
         del disps
         gc.collect()
@@ -285,9 +295,16 @@ class landscapeConnectivity(object):
             steps =   int(displacements[self.rank+1]) - int(displacements[self.rank])
         else:
             steps = self.nNodes - int(displacements[self.rank])
-        print('RUN - rank ',self.rank,' start ID ',rsID[self.rank],' end ID ',reID[self.rank])
+
+        if self.size > 1:
+            print('  +  Domain for processor {:3d} starts at row {:4d} and end at row {:4d}'.format(self.rank,rsID[self.rank],reID[self.rank]))
+
         del displacements
         gc.collect()
+        self.comm.Barrier()
+
+        if self.rank == 0:
+            print("\n Starting LEC computation... \n " )
 
         lc = reID[self.rank]-rsID[self.rank]
         localLEC = np.zeros((self.nr,self.nc))
@@ -296,7 +313,7 @@ class landscapeConnectivity(object):
         for r in range(rsID[self.rank],reID[self.rank]):
             for c in range(0,self.nc):
                 if k%fout==0 and k>0:
-                    print('Rank: ',self.rank,'  - Compute Cij ',time.clock()-t1,' step ',k,' out of ',steps)
+                    print('  + Processor {:4d} - Compute closeness between sites in {:.2f} s - completion: {:.2f} %'.format(self.rank,time.clock()-t1,k*100./steps))
                     t1 = time.clock()
                 localLEC += np.exp(-self._computeMinPath(r, c)/self.sigma2)
                 k += 1
@@ -327,6 +344,9 @@ class landscapeConnectivity(object):
         del valLEC
         gc.collect()
 
+        if self.rank == 0:
+            print('\n Landscape Elevation Connectivity calculation took: {:.2f} s'.format(time.clock()-time0))
+
         return
 
     def writeLEC(self, filename='LECout.csv'):
@@ -338,6 +358,7 @@ class landscapeConnectivity(object):
         filename : (string) output file name.
         """
 
+        time0 = time.clock()
         if self.rank == 0:
             df = pd.DataFrame({'LEC':self.LEC[self.nr0:self.nr1,self.nc0:self.nc1].flatten()})
             df.to_csv(filename, columns=['LEC'], sep=',', index=False , header=1)
@@ -346,5 +367,8 @@ class landscapeConnectivity(object):
         gc.collect()
 
         self.comm.Barrier()
+
+        if self.rank == 0:
+            print('\n Writing results on disk took: {:.2f} s'.format(time.clock()-time0))
 
         return
