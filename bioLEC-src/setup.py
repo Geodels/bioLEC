@@ -4,7 +4,8 @@
 ##  for details of the corrupted zip file. )
 ##
 ## To push a version through to pip.
-##  - Make sure it installs correctly locally as above
+##  - Make sure it installs correctly locally as above and to have a recent version of setuptools
+##  - pip install --upgrade setuptools
 ##  - Update the version information in this file
 ##  - python setup.py sdist
 ##  - twine upload dist/*
@@ -23,7 +24,7 @@ if __name__ == "__main__":
           author            = "Tristan Salles",
           author_email      = "tristan.salles@sydney.edu.au",
           url               = "https://github.com/Geodels/bioLEC",
-          version           = "0.0.4",
+          version           = "0.0.6",
           description       = "A Python interface to compute biodiversity metric based on landscape elevational connectivity.",
           long_description  = long_description,
           long_description_content_type='text/markdown',

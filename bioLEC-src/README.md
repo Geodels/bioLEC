@@ -1,4 +1,4 @@
-# bioLEC - Biodiversity metric based on landscape elevational connectivity
+# bioLEC - a parallel Landscape Elevational Connectivity package 
 
 [![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/geodels/biolec.svg)](https://hub.docker.com/r/geodels/biolec)
 [![PyPI](https://img.shields.io/pypi/v/bioLEC.svg)](https://pypi.org/project/bioLEC/)
