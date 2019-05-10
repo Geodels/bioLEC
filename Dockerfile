@@ -2,7 +2,7 @@
 #  Short docker file to distribute some notebooks
 #################################################
 
-ARG FROMIMG_ARG=geodels/geodels-bundle:latest
+ARG FROMIMG_ARG=geodels/biolec-bundle:latest
 FROM ${FROMIMG_ARG}
 
 ##################################################
