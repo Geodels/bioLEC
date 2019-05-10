@@ -79,7 +79,7 @@ RUN find -name \*.ipynb  -print0 | xargs -0 jupyter trust
 # expose notebook port server port
 EXPOSE $NB_PORT
 
-VOLUME /home/jovyan/$NB_DIR/share
+#VOLUME /home/jovyan/$NB_DIR/share
 
 # note we use xvfb which to mimic the X display for lavavu
 ENTRYPOINT ["/usr/local/bin/xvfbrun.sh"]
