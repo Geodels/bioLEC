@@ -1,4 +1,4 @@
-# bioLEC - Biodiversity metric based on landscape elevational connectivity
+# bioLEC - a parallel Landscape Elevational Connectivity package 
 
 [![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/geodels/biolec.svg)](https://hub.docker.com/r/geodels/biolec)
 [![PyPI](https://img.shields.io/pypi/v/bioLEC.svg)](https://pypi.org/project/bioLEC/)
@@ -6,6 +6,10 @@
 This folder contains notebooks to compute **landscape elevational connectivity** described in Bertuzzo et al. (2016) using a parallel LECmetrics python code.
 
 #### Binder
+
+Launch the demonstration at [mybinder.org](https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks)
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks)
 
 
 ## Navigation / Notebooks
@@ -83,3 +87,9 @@ A series of tests are located in the *tests* subdirectory.
 ## References
 
   1. E. Bertuzzo, F. Carrara, L. Mari, F. Altermatt, I. Rodriguez-Iturbe & A. Rinaldo - Geomorphic controls on species richness. **PNAS**, 113(7) 1737-1742, [DOI: 10.1073/pnas.1518922113](http://www.pnas.org/content/113/7/1737), 2016.
+
+  1. T.R. Etherington - Least-cost modelling and landscape ecology: concepts, applications, and opportunities. Current Landscape Ecology Reports 1:40-53, [DOI: 10.1007/s40823-016-0006-9](https://link.springer.com/article/10.1007%2Fs40823-016-0006-9), 2016.
+
+  1. S. van der Walt , J.L. Schönberger, J. Nunez-Iglesias, F. Boulogne, J.D. Warner, N. Yager, E. Gouillart & T. Yu - Scikit Image Contributors - scikit-image: image processing in Python, [PeerJ 2:e453](https://peerj.com/articles/453/), 2014.
+
+  1. T.R. Etherington - Least-cost modelling with Python using scikit-image, [Blog](http://tretherington.blogspot.com/2017/01/least-cost-modelling-with-python-using.html), 2017.
