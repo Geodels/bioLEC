@@ -2,6 +2,6 @@ numpy
 pandas
 mpi4py
 scikit-image
-pyevtk.hl
+pyevtk
 sphinx_rtd_theme
 sphinxcontrib-napoleon
