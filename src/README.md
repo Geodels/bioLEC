@@ -1,7 +1,8 @@
 # bioLEC - a parallel Landscape Elevational Connectivity package 
 
 [![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/geodels/biolec.svg)](https://hub.docker.com/r/geodels/biolec)
-[![PyPI](https://img.shields.io/pypi/v/bioLEC.svg)](https://pypi.org/project/bioLEC/)
+[![PyPI](https://img.shields.io/pypi/v/bioLEC.svg)](https://pypi.org/project/bioLEC/) [![Documentation Status](https://readthedocs.org/projects/biolec/badge/?version=latest)](https://biolec.readthedocs.io/en/latest/?badge=latest)
+      
 
 This folder contains notebooks to compute **landscape elevational connectivity** described in Bertuzzo et al. (2016) using a parallel LECmetrics python code.
 
