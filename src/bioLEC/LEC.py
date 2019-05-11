@@ -22,7 +22,7 @@ import time
 import numpy as np
 import pandas as pd
 from mpi4py import MPI
-from skimage import graph
+#from skimage import graph
 from pyevtk.hl import gridToVTK
 
 from pylab import rcParams
@@ -54,14 +54,14 @@ class landscapeConnectivity(object):
 
     Parameters
     ----------
-    filename    : (string) csv file name containing regularly spaced elevation grid
-    periodic    : (bool default: False) applied periodic boundary to the elevation grid
-    symmetric   : (bool default: False) applied symmetric boundary to the elevation grid
-    sigmap      : (float default: 0.1) species niche width percentage  based on elevation extent
-    sigmav      : (float default: None) species niche fixed width values
-    connected   : (bool default: True) computes the path based on the diagonal moves as well as the axial ones
-    delimiter   : (string default: r'\s+') elevation grid csv delimiter
-    header      : (int or list of ints) row number(s) to use as the column names, and the start of the data
+    + filename    : (string) csv file name containing regularly spaced elevation grid
+    + periodic    : (bool default: False) applied periodic boundary to the elevation grid
+    + symmetric   : (bool default: False) applied symmetric boundary to the elevation grid
+    + sigmap      : (float default: 0.1) species niche width percentage  based on elevation extent
+    + sigmav      : (float default: None) species niche fixed width values
+    + connected   : (bool default: True) computes the path based on the diagonal moves as well as the axial ones
+    + delimiter   : (string default: r'\s+') elevation grid csv delimiter
+    + header      : (int or list of ints) row number(s) to use as the column names, and the start of the data
 
     Notes
     -----
@@ -211,8 +211,8 @@ class landscapeConnectivity(object):
         The calculation is based on MCP_Geometric and differs from MCP in that the cost
         of a path is not simply the sum of the costs along that path.
 
-        This class instead assumes that the costs array contains at each position the “cost”
-        of a unit distance of travel through that position. For example, a move (in 2-d) from (1, 1)
+        This class instead assumes that the costs array contains at each position the cost
+        of a unit distance of travel through that position. For example, a move (in 2d) from (1, 1)
         to (1, 2) is assumed to originate in the center of the pixel (1, 1) and terminate in the
         center of (1, 2). The entire move is of distance 1, half through (1, 1) and half
         through (1, 2); thus the cost of that move is (1/2)*costs[1,1] + (1/2)*costs[1,2].

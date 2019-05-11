@@ -5,8 +5,8 @@ __pycache__
 *checkpoint.ipynb
 *.png
 
-bioLEC-src/build/*
-bioLEC-src/dist/*
+src/build/*
+src/dist/*
 
 *.egg
 
