@@ -1,0 +1,7 @@
+numpy 
+pandas
+mpi4py
+skimage
+pyevtk.hl
+sphinx_rtd_theme
+sphinxcontrib-napoleon
