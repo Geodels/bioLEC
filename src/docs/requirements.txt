@@ -1,6 +1,5 @@
 numpy
 pandas
-mpi4py
 scikit-image
 pyevtk
 sphinx_rtd_theme
