@@ -21,7 +21,13 @@ import gc
 import time
 import numpy as np
 import pandas as pd
-from mpi4py import MPI
+
+# For readthedoc...
+try:
+    from mpi4py import MPI
+except ImportError:
+    print('mpi4py is required and needs to be installed via pip')
+    pass
 
 # For readthedoc...
 try:
