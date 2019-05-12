@@ -22,7 +22,7 @@ import time
 import numpy as np
 import pandas as pd
 from mpi4py import MPI
-#from skimage import graph
+from skimage import graph
 from pyevtk.hl import gridToVTK
 
 from pylab import rcParams
@@ -52,23 +52,21 @@ class landscapeConnectivity(object):
     doi:10.1073/pnas.1518922113
 
 
-    Parameters
-    ----------
-    + filename    : (string) csv file name containing regularly spaced elevation grid
-    + periodic    : (bool default: False) applied periodic boundary to the elevation grid
-    + symmetric   : (bool default: False) applied symmetric boundary to the elevation grid
-    + sigmap      : (float default: 0.1) species niche width percentage  based on elevation extent
-    + sigmav      : (float default: None) species niche fixed width values
-    + connected   : (bool default: True) computes the path based on the diagonal moves as well as the axial ones
-    + delimiter   : (string default: r'\s+') elevation grid csv delimiter
-    + header      : (int or list of ints) row number(s) to use as the column names, and the start of the data
+    Args:
+        filename    : (string) csv file name containing regularly spaced elevation grid
+        periodic    : (bool default: False) applied periodic boundary to the elevation grid
+        symmetric   : (bool default: False) applied symmetric boundary to the elevation grid
+        sigmap      : (float default: 0.1) species niche width percentage  based on elevation extent
+        sigmav      : (float default: None) species niche fixed width values
+        connected   : (bool default: True) computes the path based on the diagonal moves as well as the axial ones
+        delimiter   : (string default: r'\s+') elevation grid csv delimiter
+        header      : (int or list of ints) row number(s) to use as the column names, and the start of the data
 
-    Notes
-    -----
-    Landscape elevational connectivity (LEC) quantifies the closeness of a site to all others with
-    similar elevation. Such closeness is computed over a graph whose edges represent connections
-    among sites and whose weights are proportional to the cost of spreading through patches at
-    different elevation.
+    Note:
+        Landscape elevational connectivity (LEC) quantifies the closeness of a site to all others with
+        similar elevation. Such closeness is computed over a graph whose edges represent connections
+        among sites and whose weights are proportional to the cost of spreading through patches at
+        different elevation.
 
     Although LEC simply depends on the elevation field and on the niche width, LEC predicts well the
     alpha-diversity simulated by full metacommunity models. LEC is able to capture the variability
