@@ -22,7 +22,14 @@ import time
 import numpy as np
 import pandas as pd
 from mpi4py import MPI
-from skimage import graph
+
+# For readthedoc...
+try:
+    from skimage import graph
+except ImportError:
+    print('scikit-image is required and needs to be installed via pip')
+    pass
+
 from pyevtk.hl import gridToVTK
 
 from pylab import rcParams
