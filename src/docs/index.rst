@@ -25,10 +25,6 @@ Contents
    bioLEC
    :maxdepth: 3
 
-.. automodule:: bioLEC
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Indices and tables
 ==================
