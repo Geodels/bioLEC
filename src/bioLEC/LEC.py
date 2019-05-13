@@ -1,19 +1,3 @@
-"""
-Copyright 2019 Tristan Salles
-
-bioLEC is free software: you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation, either version 3 of the License, or any later version.
-
-bioLEC is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License
-along with bioLEC.  If not, see <http://www.gnu.org/licenses/>.
-"""
-
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
@@ -49,42 +33,28 @@ warnings.simplefilter(action = "ignore", category = FutureWarning)
 
 class landscapeConnectivity(object):
     """
-    Class for building landscape elevational connectivity.
+    *Landscape elevational connectivity* (**LEC**) quantifies the closeness of a site to all others with
+    similar elevation. Such closeness is computed over a *graph* whose edges represent connections
+    among sites and whose weights are proportional to the cost of spreading through patches at
+    different elevation.
 
-    Local species richness is found to be related to the landscape elevational connectivity, as quantified
-    by the landscape elevational connectivity metric (LEC) that applies tools of complex network theory to
-    measure the closeness of a site to others with similar habitat.
-
-    Algorithm
-    ---------
-    E. Bertuzzo et al., 2016: Geomorphic controls on elevational gradients of species richness - PNAS
-    ww.pnas.org/cgi/doi/10.1073/pnas.1518922113
-    Bertuzzo, E. and Carrara, F. and Mari, L. and Altermatt, F. and Rodriguez-Iturbe, I. and Rinaldo, A. (2016)
-    Geomorphic controls on elevational gradients of species richness
-    Proceedings of the National Academy of Sciences 113(7), 1737-1742
-    doi:10.1073/pnas.1518922113
-
+    Method:
+        E. Bertuzzo et al., 2016: Geomorphic controls on elevational gradients of species richness - PNAS
+        `doi:10.1073/pnas.1518922113 <www.pnas.org/cgi/doi/10.1073/pnas.1518922113>`_
 
     Args:
-        filename    : (string) csv file name containing regularly spaced elevation grid
-        periodic    : (bool default: False) applied periodic boundary to the elevation grid
-        symmetric   : (bool default: False) applied symmetric boundary to the elevation grid
-        sigmap      : (float default: 0.1) species niche width percentage  based on elevation extent
-        sigmav      : (float default: None) species niche fixed width values
-        connected   : (bool default: True) computes the path based on the diagonal moves as well as the axial ones
-        delimiter   : (string default: r'\s+') elevation grid csv delimiter
-        header      : (int or list of ints) row number(s) to use as the column names, and the start of the data
+        filename (str): CSV file name containing regularly spaced elevation grid
+        periodic (bool):  applied periodic boundary to the elevation grid [default: False]
+        symmetric (bool): applied symmetric boundary to the elevation grid [default: False]
+        sigmap (float): species niche width percentage  based on elevation extent [default: 0.1]
+        sigmav (float): species niche fixed width values [default: None]
+        connected (bool): computes the path based on the diagonal moves as well as the axial ones [default: True]
+        delimiter (str):  elevation grid csv delimiter [default: ',']
+        header (int):  row number(s) to use as the column names, and the start of the data [default: 0]
 
     Note:
-        Landscape elevational connectivity (LEC) quantifies the closeness of a site to all others with
-        similar elevation. Such closeness is computed over a graph whose edges represent connections
-        among sites and whose weights are proportional to the cost of spreading through patches at
-        different elevation.
-
-    Although LEC simply depends on the elevation field and on the niche width, LEC predicts well the
-    alpha-diversity simulated by full metacommunity models. LEC is able to capture the variability
-    of diversity hosted at the same elevation, as opposed to a simpler predictor like the elevation
-    frequency.
+        Although LEC simply depends on the elevation field and on the niche width, *LEC predicts well the
+        alpha-diversity simulated by full metacommunity models*.
     """
 
     def __init__(self, filename=None, periodic=False, symmetric=False, sigmap=0.1, sigmav=None,
@@ -200,38 +170,21 @@ class landscapeConnectivity(object):
 
         return
 
-    def _computeMinPath(self, r, c):
+    def computeMinPath(self, r, c):
         """
-        This function computes the minimum path between of specific nodes and all other nodes
-        in the array.
+        **Internal function** to compute the minimum path between a specific node and all other ones.
 
-        Parameters
-        ----------
-        c : (int) row indices of a consider point
-        r : (int) column indices of a consider point
+        Args:
+            c (int): row indice of the consider point
+            r (int): column indice of a consider point
 
-        Returns
-        -------
-        The minimum-cost path to the specified ending indices from the specified starting indices.
+        Returns:
+            mincost: minimum-cost path for the specified node.
 
-        Notes
-        -----
-        This function relies on scikit-image (image processing in python) and finds
-        distance-weighted minimum cost paths through an n-d costs array.
-
-        The calculation is based on MCP_Geometric and differs from MCP in that the cost
-        of a path is not simply the sum of the costs along that path.
-
-        This class instead assumes that the costs array contains at each position the cost
-        of a unit distance of travel through that position. For example, a move (in 2d) from (1, 1)
-        to (1, 2) is assumed to originate in the center of the pixel (1, 1) and terminate in the
-        center of (1, 2). The entire move is of distance 1, half through (1, 1) and half
-        through (1, 2); thus the cost of that move is (1/2)*costs[1,1] + (1/2)*costs[1,2].
-
-        On the other hand, a move from (1, 1) to (2, 2) is along the diagonal and is sqrt(2)
-        in length. Half of this move is within the pixel (1, 1) and the other half in (2, 2),
-        so the cost of this move is calculated as (sqrt(2)/2)*costs[1,1] + (sqrt(2)/2)*costs[2,2].
-
+        Notes:
+            This function relies on **scikit-image** (image processing in python) and finds
+            distance-weighted minimum cost paths through an n-d costs array.
+            `scikit-image graph <https://scikit-image.org/docs/dev/api/skimage.graph.html>`_
         """
         # Create the cost surface based on the square of the difference in elevation between the considered
         # node and all the others vertices
