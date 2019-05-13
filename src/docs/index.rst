@@ -14,7 +14,7 @@ Overview
 
 
 .. image:: ../bioLEC/Notebooks/images/fig1.png
-   :scale: 40 %
+   :scale: 30 %
    :alt: LEC computation
    :align: center
 
