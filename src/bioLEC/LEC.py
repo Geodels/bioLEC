@@ -184,12 +184,11 @@ class landscapeConnectivity(object):
         Returns:
             mincost: minimum-cost path for the specified node.
 
-        Notes:
-            This function relies on **scikit-image** (image processing in python) and finds
+        Note:
+            This function relies on scikit-image_ (image processing in python) and finds
             distance-weighted minimum cost paths through an n-d costs array.
-            scikit-image_
 
-            .. _scikit-image: https://scikit-image.org/docs/dev/api/skimage.graph.html
+        .. _scikit-image: https://scikit-image.org/docs/dev/api/skimage.graph.html
         """
         # Create the cost surface based on the square of the difference in elevation between the considered
         # node and all the others vertices
@@ -202,19 +201,17 @@ class landscapeConnectivity(object):
         # Calculate the least-cost distance from the start cell to all other cells
         return cost.find_costs(starts=[(r, c)])[0]
 
-    def _splitRowWise(self):
+    def splitRowWise(self):
         """
-        From the number of processors available split the array in equal number row wise.
-        This simple partitioning is used to perform LEC computation in parallel.
+        **Rowwise block partitioning** used to perform LEC computation in parallel.
 
-        Returns
-        -------
-        disps   : 1D array of integers, shape (np, ) where np is the number of processors
-            number of nodes to consider on each partition
-        startID : 1D array of integers, shape (np, ) where np is the number of processors
-            starting index for each partition
-        endID   : 1D array of integers, shape (np, ) where np is the number of processors
-            ending index for each partition
+        Returns:
+            disps (1D array int): number of nodes to consider on each partition
+            startID (1D array int): starting index for each partition
+            endID (1D array int): ending index for each partition
+
+        Note:
+            From the number of processors (np) available split the array into equal number row wise.
         """
 
         tmpA = np.zeros((self.nr, self.nc))
@@ -240,14 +237,14 @@ class landscapeConnectivity(object):
 
     def computeLEC(self, fout=500):
         """
-        This function computes the minimum path arrays for all nodes in the given dataset and
-        the measure of the closeness of site j to i in terms of elevational connectivity. Then it
-        builds the landscape elevational connectivity array from previously computed
+        This function computes the **minimum path for all nodes** in a given surface and
+        **measure of the closeness** of each node to other at similar elevation range.
+
+        It then provide the *landscape elevational connectivity* array from computed
         measure of closeness calculation.
 
-        Parameters
-        ----------
-        fout : (integer default: 500) output frequency.
+        Args:
+            fout (int): output frequency [default: 500]
 
         """
 
@@ -257,7 +254,7 @@ class landscapeConnectivity(object):
         disps = None
 
         if self.rank == 0:
-            disps, startID, endID  = self._splitRowWise()
+            disps, startID, endID  = self.splitRowWise()
 
         rsID = self.comm.bcast(startID, root=0)
         reID = self.comm.bcast(endID, root=0)
@@ -296,7 +293,7 @@ class landscapeConnectivity(object):
                     if self.rank == 0:
                         print('  +  Compute closeness between sites in {:.2f} s - completion: {:.2f} %'.format(time.clock()-t1,k*100./steps))
                     t1 = time.clock()
-                localLEC += np.exp(-self._computeMinPath(r, c)/self.sigma2)
+                localLEC += np.exp(-self.computeMinPath(r, c)/self.sigma2)
                 k += 1
 
         del startID
@@ -330,16 +327,18 @@ class landscapeConnectivity(object):
 
     def viewResult(self, imName=None, size=(9,5), fsize=11, cmap1=plt.cm.summer_r, cmap2=plt.cm.coolwarm, dpi=200):
         """
-        This function plots and save in a figure the result of the LEC computation.
+        This function **plots** and **saves** in a figure the result of the *LEC computation*.
 
-        Parameters
-        ----------
-        imName  : (string) image name with extension
-        size    : size of the image
-        fsize   : title font size
-        cmap1   : color map for elevation grid
-        cmap2   : color map for LEC grid
-        dpi     : resolution of the saved image
+        Args:
+            imName (str): (string) image name with extension
+            size  : size of the image [default: (9,5)]
+            fsize (int): title font size [default: 11]
+            cmap1 : color map for elevation grid [default: plt.cm.summer_r]
+            cmap2 : color map for LEC grid [default: cmap2=plt.cm.coolwarm]
+            dpi  (int): resolution of the saved image [default: 200]
+
+        Warning:
+            The filename needs to be provided without extension.
         """
 
         rcParams['figure.figsize'] = size
@@ -360,7 +359,6 @@ class landscapeConnectivity(object):
         # Remove ticks from ax1
         ax1.xaxis.set_visible(False)
         ax1.yaxis.set_visible(False)
-
 
         # SUBPLOT 2
         ax2.set_title('LEC', fontsize=fsize-1)
@@ -392,19 +390,21 @@ class landscapeConnectivity(object):
 
     def viewElevFrequency(self, input=None, imName=None, nbins=80, size=(6,6), fsize=11, dpi=200):
         """
-        This function plots and save in a figure the distribution of elevation.
+        This function **plots** and **saves** in a figure the *distribution of elevation*.
 
-        Parameters
-        ----------
-        input   : (string) file name containing the dataset
-        imName  : (string) image name with extension
-        nbins   : number of bins for the histogram
-        size    : size of the image
-        fsize   : title font size
-        dpi     : resolution of the saved image
+        Args:
+            input (str): CSV file name containing the dataset
+            imName (str): (string) image name with extension
+            nbins (int): number of bins for the histogram (default: 80)
+            size  : size of the image [default: (6,6)]
+            fsize (int): title font size [default: 11]
+            dpi  (int): resolution of the saved image [default: 200]
+
+        Warning:
+            The filename needs to be provided without extension.
         """
 
-        data = pd.read_csv(input)
+        data = pd.read_csv(input+'.csv')
 
         ax = data.Z.plot(kind='hist', color='Blue', alpha=0.2, bins=nbins, xlim=(data.Z.min(),data.Z.max()))
 
@@ -437,18 +437,20 @@ class landscapeConnectivity(object):
 
     def viewLECFrequency(self, input=None, imName=None, size=(6,6), fsize=11, dpi=200):
         """
-        This function plots and save in a figure the distribution of LEC with elevation.
+        This function **plots** and **saves** in a figure the *distribution of LEC with elevation*.
 
-        Parameters
-        ----------
-        input   : (string) file name containing the dataset
-        imName  : (string) image name with extension
-        size    : size of the image
-        fsize   : title font size
-        dpi     : resolution of the saved image
+        Args:
+            input (str): CSV file name containing the dataset
+            imName (str): (string) image name with extension
+            size  : size of the image [default: (6,6)]
+            fsize (int): title font size [default: 11]
+            dpi  (int): resolution of the saved image [default: 200]
+
+        Warning:
+            The filename needs to be provided without extension.
         """
 
-        data = pd.read_csv(input)
+        data = pd.read_csv(input+'.csv')
 
         ff = data.plot(kind='scatter', x='Z', y='LEC', c='white', edgecolors='lightgray', figsize=size,
                   xlim=(data['Z'].min(),data['Z'].max()), s=5)
@@ -477,20 +479,22 @@ class landscapeConnectivity(object):
 
     def viewLECZbar(self, input=None, imName=None, nbins=40, size=(6,6), fsize=11, dpi=200):
         """
-        This function plots and save in a figure the distribution of LEC and elevation with elevation
-        as well as the standard deviation for LEC values for each bins.
+        This function **plots** and **saves** in a figure the *distribution of LEC and elevation with elevation*
+        as well as the *standard deviation for LEC values* for each bins.
 
-        Parameters
-        ----------
-        input   : (string) file name containing the dataset
-        imName  : (string) image name with extension
-        nbins   : number of bins for the histogram
-        size    : size of the image
-        fsize   : title font size
-        dpi     : resolution of the saved image
+        Args:
+            input (str): CSV file name containing the dataset
+            imName (str): (string) image name with extension
+            nbins (int): number of bins for the histogram (default: 40)
+            size  : size of the image [default: (6,6)]
+            fsize (int): title font size [default: 11]
+            dpi  (int): resolution of the saved image [default: 200]
+
+        Warning:
+            The filename needs to be provided without extension.
         """
 
-        data = pd.read_csv(input)
+        data = pd.read_csv(input+'.csv')
         n, _ = np.histogram(data.Z, bins=nbins)
         sy, _ = np.histogram(data.Z, bins=nbins, weights=data.LEC)
         sy2, _ = np.histogram(data.Z, bins=nbins, weights=data.LEC*data.LEC)
@@ -539,18 +543,20 @@ class landscapeConnectivity(object):
 
     def viewLECZFrequency(self, input=None, imName=None, size=(6,6), fsize=11, dpi=200):
         """
-        This function plots and save in a figure the distribution of LEC and elevation with elevation.
+        This function **plots** and **saves** in a figure the *distribution of LEC and elevation with elevation*.
 
-        Parameters
-        ----------
-        input   : (string) file name containing the dataset
-        imName  : (string) image name with extension
-        size    : size of the image
-        fsize   : title font size
-        dpi     : resolution of the saved image
+        Args:
+            input (str): CSV file name containing the dataset
+            imName (str): (string) image name with extension
+            size  : size of the image [default: (6,6)]
+            fsize (int): title font size [default: 11]
+            dpi  (int): resolution of the saved image [default: 200]
+
+        Warning:
+            The filename needs to be provided without extension.
         """
 
-        data = pd.read_csv(input)
+        data = pd.read_csv(input+'.csv')
 
         ax = data.plot(kind='scatter', x='Z', y='LEC', c='white', edgecolors='lightgray', figsize=size,
                   xlim=(data['Z'].min(),data['Z'].max()), s=5)
@@ -582,15 +588,16 @@ class landscapeConnectivity(object):
 
         return
 
-
     def writeLEC(self, filename='LECout'):
         """
-        This function writes the computed landscape elevational connectivity array in a CSV and create
-        a VTK visualisation file (.vts)
+        This function writes the computed landscape elevational connectivity array in a **CSV file**
+        and create a **VTK visualisation file** (.vts).
 
-        Parameters
-        ----------
-        filename : (string) output file name without format extension.
+        Args:
+            filename (str): output file name without format extension.
+
+        Warning:
+            The filename needs to be provided without extension.
         """
 
         time0 = time.clock()
