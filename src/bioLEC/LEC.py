@@ -38,9 +38,12 @@ class landscapeConnectivity(object):
     among sites and whose weights are proportional to the cost of spreading through patches at
     different elevation.
 
+    doi
     Method:
         E. Bertuzzo et al., 2016: Geomorphic controls on elevational gradients of species richness - PNAS
-        `doi:10.1073/pnas.1518922113 <www.pnas.org/cgi/doi/10.1073/pnas.1518922113>`_
+        doi_
+
+    .. _doi: http://www.pnas.org/cgi/doi/10.1073/pnas.1518922113
 
     Args:
         filename (str): CSV file name containing regularly spaced elevation grid
@@ -184,7 +187,9 @@ class landscapeConnectivity(object):
         Notes:
             This function relies on **scikit-image** (image processing in python) and finds
             distance-weighted minimum cost paths through an n-d costs array.
-            `scikit-image graph <https://scikit-image.org/docs/dev/api/skimage.graph.html>`_
+            scikit-image_
+
+            .. _scikit-image: https://scikit-image.org/docs/dev/api/skimage.graph.html
         """
         # Create the cost surface based on the square of the difference in elevation between the considered
         # node and all the others vertices
