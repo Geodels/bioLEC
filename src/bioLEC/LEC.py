@@ -38,7 +38,6 @@ class landscapeConnectivity(object):
     among sites and whose weights are proportional to the cost of spreading through patches at
     different elevation.
 
-    doi
     Method:
         E. Bertuzzo et al., 2016: Geomorphic controls on elevational gradients of species richness - PNAS
         doi_

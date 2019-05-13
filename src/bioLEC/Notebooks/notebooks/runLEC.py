@@ -1,6 +1,5 @@
 import argparse
-#from bioLEC import LEC
-import bbb as LEC
+from bioLEC import LEC
 
 # Parsing command line arguments
 parser = argparse.ArgumentParser(description='This is a simple entry to run bioLEC package from python.',add_help=True)

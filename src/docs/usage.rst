@@ -1,18 +1,87 @@
 Usage
 =====
 
-A series of tests are located in the tests subdirectory.
 
-.. image:: ../bioLEC/Notebooks/images/path.jpg
-   :scale: 30 %
-   :alt: LEC computation
-   :align: center
+Binder
+------
+
+.. image:: https://mybinder.org/badge_logo.svg
+  :target: https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks
 
 
-References
-----------
+Notebooks
+---------
 
-- E. Bertuzzo, F. Carrara, L. Mari, F. Altermatt, I. Rodriguez-Iturbe & A. Rinaldo - Geomorphic controls on species richness. PNAS, 113(7) 1737-1742, DOI: 10.1073/pnas.1518922113, 2016.
-- T.R. Etherington - Least-cost modelling and landscape ecology: concepts, applications, and opportunities. Current Landscape Ecology Reports 1:40-53, DOI: 10.1007/s40823-016-0006-9, 2016.
-- S. van der Walt , J.L. Schönberger, J. Nunez-Iglesias, F. Boulogne, J.D. Warner, N. Yager, E. Gouillart & T. Yu - Scikit Image Contributors - scikit-image: image processing in Python, PeerJ 2:e453, 2014.
-- T.R. Etherington - Least-cost modelling with Python using scikit-image, Blog, 2017.Main functions used to compute the LEC.
+An example is provided...
+
+HPC
+---
+
+The tool can be used to compute the **LEC** for any landscape file as long as the data is available from a **CSV file containing 3D coordinates (X,Y,Z)**.
+
+.. attention::
+  Notebooks environment will not be the best option for **large landscape models** and we will recommend the use of the python script: ``runLEC.py`` in **HPC environment**.
+
+In this case, the code will need to be
+
+
+.. code-block:: bash
+
+  $ mpirun -np XX python runLEC.py
+
+with XX represents the number of processor to use.
+
+The python script ``runLEC.py`` is defined by:
+
+.. code-block:: python
+
+  import argparse
+  from bioLEC import LEC
+
+  # Parsing command line arguments
+  parser = argparse.ArgumentParser(description='This is a simple entry to run bioLEC package from python.',add_help=True)
+
+  # Required
+  parser.add_argument('-i','--input', help='Input file name (csv file)',required=True)
+  parser.add_argument('-o','--output',help='Output file name without extension', required=True)
+
+  # Optional
+  parser.add_argument('-p','--periodic',help='True/false option for periodic boundary conditions', required=False, action="store_true", default=False)
+  parser.add_argument('-s','--symmetric',help='True/false option for symmetric boundary conditions', required=False, action="store_true", default=False)
+  parser.add_argument('-w','--width',help='Float option for species niche width percentage', required=False, action="store_true", default=0.1)
+  parser.add_argument('-f','--fix',help='Float option for species niche width fix values', required=False, action="store_true", default=None)
+  parser.add_argument('-c','--connected',help='True/false option for computing the path based on the diagonal moves as well as the axial ones', required=False, action="store_true", default=True)
+  parser.add_argument('-t','--top',help='Header lines in the elevation grid', required=False, action="store_true", default=0)
+  parser.add_argument('-n','--nout',help='Number for output frequency during run', required=False, action="store_true", default=500)
+  parser.add_argument('-d','--delimiter',help='String for elevation grid csv delimiter', required=False,action="store_true",default=',')
+  parser.add_argument('-v','--verbose',help='True/false option for verbose', required=False,action="store_true",default=False)
+
+
+  args = parser.parse_args()
+  if args.verbose:
+    print("Required arguments: ")
+    print("   + Input file: {}".format(args.input))
+    print("   + Output file without extension: {}".format(args.output))
+    print("\nOptional arguments: ")
+    print("   + Periodic boundary conditions for the elevation grid: {}".format(args.periodic))
+    print("   + Symmetric boundary conditions for the elevation grid: {}".format(args.symmetric))
+    print("   + Species niche width percentage based on elevation extent: {}".format(args.width))
+    print("   + Species niche width based on elevation extent: {}".format(args.fix))
+    print("   + Computes the path based on the diagonal moves as well as the axial ones: {}".format(args.connected))
+    print("   + Elevation grid csv delimiter: {}".format(args.delimiter))
+    print("   + Number of header lines: {}".format(args.top))
+    print("   + Number for output frequency: {}\n".format(args.nout))
+
+  biodiv = LEC.landscapeConnectivity(filename=args.input,periodic=args.periodic,symmetric=args.symmetric,
+                                      sigmap=args.width,sigmav=args.fix,connected=args.connected,
+                                      delimiter=args.delimiter,header=args.top)
+
+  biodiv.computeLEC(args.nout)
+
+  biodiv.writeLEC(args.output)
+  if biodiv.rank == 0:
+      biodiv.viewResult(imName=args.output+'.png')
+      biodiv.viewElevFrequency(input=args.output+'.csv',imName=args.output+'_zfreq.png')
+      biodiv.viewLECZFrequency(input=args.output+'.csv',imName=args.output+'_leczfreq.png')
+      biodiv.viewLECFrequency(input=args.output+'.csv',imName=args.output+'_lecfreq.png')
+      biodiv.viewLECZbar(input=args.output+'.csv',imName=args.output+'_lecbar.png')
