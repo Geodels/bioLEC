@@ -45,12 +45,15 @@ Community driven
 **********************
 
 We welcome all kinds of contributions! Please get in touch if you would like to help out.
-Everything from code to notebooks to examples and documentation are all equally valuable so please don't feel you can't contribute. To contribute please fork the project make your changes and submit a pull request. We will do our best to work through any issues with you and get your code merged into the main branch.
+Everything from code to notebooks to examples and documentation are all equally valuable so please don't feel you can't contribute.
 
-If you found a bug, have questions, or are just having trouble with **bioLEC**, you can:
+To contribute please fork the project make your changes and submit a pull request. We will do our best to work through any issues with you and get your code merged into the main branch.
 
-* join the **bioLEC User Group on Slack** by sending an email request to: tristan.salles@sydney.edu.au
-* open an issue in our issue-tracker_ and we'll try to help resolve the concern.
+
+.. seealso::
+  If you found a bug, have questions, or are just having trouble with **bioLEC**, you can:
+  * join the **bioLEC User Group on Slack** by sending an email request to: tristan.salles@sydney.edu.au
+  * open an issue in our issue-tracker_ and we'll try to help resolve the concern.
 
 .. _issue-tracker: https://github.com/Geodels/bioLEC/issues/new)
 
