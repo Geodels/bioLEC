@@ -3,6 +3,12 @@ Usage
 
 A series of tests are located in the tests subdirectory.
 
+.. image:: ../bioLEC/Notebooks/images/path.png
+   :scale: 30 %
+   :alt: LEC computation
+   :align: center
+
+
 References
 ----------
 

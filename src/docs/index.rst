@@ -14,7 +14,7 @@ Overview
 
 
 .. image:: ../bioLEC/Notebooks/images/fig1.png
-   :scale: 30 %
+   :scale: 40 %
    :alt: LEC computation
    :align: center
 
@@ -32,26 +32,25 @@ Contents
    bioLEC
    :maxdepth: 3
 
-Community driven
+License
 **********************
 
-To join the **bioLEC** User Group on Slack, send an email request to: <a href="MAILTO:tristan.salles@sydney.edu.au?subject=bioLEC User Group&body=Please send me an invite to join the eSCAPE User Group">Join bioLEC User Group</a>
-
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+This program is free software: you can redistribute it and/or modify it under the terms of the **GNU Lesser General Public License** as published by the **Free Software Foundation**, either version 3 of the License, or (at your option) any later version.
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.
-You should have received a copy of the GNU Lesser General Public License along with this program.  If not, see <http://www.gnu.org/licenses/lgpl-3.0.en.html>.
+You should have received a copy of the GNU Lesser General Public License along with this program.  If not, see http://www.gnu.org/licenses/lgpl-3.0.en.html.
 
-Contributions
+Community driven
 **********************
 
 We welcome all kinds of contributions! Please get in touch if you would like to help out.
 Everything from code to notebooks to examples and documentation are all equally valuable so please don't feel you can't contribute. To contribute please fork the project make your changes and submit a pull request. We will do our best to work through any issues with you and get your code merged into the main branch.
 
-Note:
-  If you found a bug, have questions, or are just having trouble with **bioLEC**, you can:
-  * join the _bioLEC User Group on Slack_ by sending an email request to: <a href="MAILTO:tristan.salles@sydney.edu.au?subject=bioLEC User Group&body=Please send me an invite to join the bioLEC User Group">Join bioLEC User Group</a>
-  * open an issue in our [issue tracker](https://github.com/Geodels/bioLEC/issues/new) and we'll try to help resolve the concern.
+If you found a bug, have questions, or are just having trouble with **bioLEC**, you can:
 
+* join the **bioLEC User Group on Slack** by sending an email request to: tristan.salles@sydney.edu.au
+* open an issue in our issue-tracker_ and we'll try to help resolve the concern.
+
+.. _issue-tracker: https://github.com/Geodels/bioLEC/issues/new)
 
 Indices and tables
 ==================
