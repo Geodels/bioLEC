@@ -73,7 +73,7 @@ class landscapeConnectivity(object):
 
         # Read DEM file
         self.demfile = filename
-        df = pd.read_csv(self.demfile, sep=',', engine='c',
+        df = pd.read_csv(self.demfile, sep=delimiter, engine='c',
                                header=header, na_filter=False, dtype=np.float,
                                low_memory=False)
         X = df['X']
