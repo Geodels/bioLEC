@@ -1,5 +1,7 @@
 # Minimal makefile for Sphinx documentation
-#
+# pip install sphinx sphinx_rtd_theme sphinxcontrib-napoleon
+# make clean
+# make html
 
 # You can set these variables from the command line.
 SPHINXOPTS    =

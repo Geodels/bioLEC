@@ -45,22 +45,32 @@ class landscapeConnectivity(object):
     .. _doi: http://www.pnas.org/cgi/doi/10.1073/pnas.1518922113
 
     Args:
-        filename (str): CSV file name containing regularly spaced elevation grid
+        filename (str): CSV file name containing regularly spaced elevation grid [default: None]
+        XYZ (3D Numpy Array): 3D coordinates array of shape (nn,3) where nn is the number of points [default: None]
+        Z (2D Numpy Array): Elevation array of shape (nx,ny) where nx and ny are the number of points  along the X and Y axis [default: None]
+        dx (float): grid spacing in metre when the Z argument defined above is used [default: None]
         periodic (bool):  applied periodic boundary to the elevation grid [default: False]
         symmetric (bool): applied symmetric boundary to the elevation grid [default: False]
         sigmap (float): species niche width percentage  based on elevation extent [default: 0.1]
         sigmav (float): species niche fixed width values [default: None]
         connected (bool): computes the path based on the diagonal moves as well as the axial ones [default: True]
-        delimiter (str):  elevation grid csv delimiter [default: ',']
-        header (int):  row number(s) to use as the column names, and the start of the data [default: 0]
+        delimiter (str):  elevation grid csv delimiter [default: ' ']
+        sl (float):  sea level position used to remove marine points from the LEC calculation [default: -1.e6]
+
+    caution:
+        There are 3 ways to import the elevation dataset in bioLEC:
+        
+            * either as a CSV file (argument: filename) containing 3 columns for X, Y and Z respectively with no header and ordered along the X axis first
+            * or as a 3D numpy array (argument: XYZ) containing the X, Y and Z coordinates here again ordered along the X axis first
+            * or as a 2D numpy array (argument: Z) containing the elevation matrix, in this case the dx argument is also required
 
     Note:
         Although LEC simply depends on the elevation field and on the niche width, *LEC predicts well the
         alpha-diversity simulated by full metacommunity models*.
     """
 
-    def __init__(self, filename=None, periodic=False, symmetric=False, sigmap=0.1, sigmav=None,
-                        connected=True, delimiter=',', header=0):
+    def __init__(self, filename=None, XYZ=None, Z=None, dx=None, periodic=False, symmetric=False,
+                 sigmap=0.1, sigmav=None, connected=True, delimiter=' ', sl=-1.e6):
 
         # Set MPI communications
         self.comm = MPI.COMM_WORLD
@@ -72,24 +82,56 @@ class landscapeConnectivity(object):
             print('-------------------------------------------\n')
 
         # Read DEM file
-        self.demfile = filename
-        df = pd.read_csv(self.demfile, sep=delimiter, engine='c',
-                               header=header, na_filter=False, dtype=np.float,
-                               low_memory=False)
-        X = df['X']
-        Y = df['Y']
-        Z = df['Z']
-        self.X = X.values
-        self.Y = Y.values
-        self.Z = Z.values
-        dx = ( X[1] - X[0] )
-        self.nx = int((X.max() - X.min())/dx+1)
-        self.ny = int((Y.max() - Y.min())/dx+1)
-        Z = Z.values.reshape(self.ny,self.nx)
-        del X
-        gc.collect()
-        del Y
-        gc.collect()
+        if filename is not None:
+            self.demfile = filename
+            df = pd.read_csv(self.demfile, sep=delimiter, engine='c',
+                                   header=None, na_filter=False, dtype=np.float,
+                                   low_memory=False)
+            self.X = df.values[:,0]
+            self.Y = df.values[:,1]
+            self.Z = df.values[:,2]
+
+        elif XYZ is not None:
+            if XYZ.shape[1] != 3 :
+                if self.rank == 0:
+                    print('Problem XYZ variable has to be defined with the following shape (nn,3) with nn the number of points!')
+                return
+            self.X = XYZ[:,0]
+            self.Y = XYZ[:,1]
+            self.Z = XYZ[:,2]
+            if self.X[1]==self.X[0]:
+                if self.rank == 0:
+                    print('Problem XYZ variable have to be ordered along the X axis first!')
+                return
+
+        elif Z is not None:
+            if dx is None:
+                if self.rank == 0:
+                    print('When using the Z argument then grid spacing [dx] has to be defined!')
+                return
+
+            nx = Z.shape[0]
+            ny = Z.shape[1]
+            xgrid = np.arange(0,nx*dx,dx)
+            ygrid = np.arange(0,ny*dx,dx)
+            xi, yi = np.meshgrid(xgrid,ygrid)
+            self.X = xi.flatten()
+            self.Y = yi.flatten()
+            self.Z = Z.flatten()
+        else:
+            if self.rank == 0:
+                print('Problem either filename or XYZ or Z variables have to be declared for the function to run properly!')
+            return
+
+        dx = ( self.X[1] - self.X[0] )
+        if dx == 0:
+            if self.rank == 0:
+                print('Problem dx is set to 0!')
+            return
+
+        self.nx = int((self.X.max() - self.X.min())/dx+1)
+        self.ny = int((self.Y.max() - self.Y.min())/dx+1)
+        Z = self.Z.reshape(self.ny,self.nx)
 
         self.connected = connected
         if periodic:
@@ -155,12 +197,17 @@ class landscapeConnectivity(object):
         del Z
         gc.collect()
 
+        self.sealevel = sl
+        minz = max(self.data.min(),self.sealevel)
+        self.nz = self.data.copy()
+        self.nz[self.nz<self.sealevel] = -1.e6
+
         if sigmap is not None:
-            sigma = (self.data.max() - self.data.min()) * sigmap
+            sigma = (self.data.max() - minz) * sigmap
         elif sigmav is not None:
             sigma = sigmav
         else:
-            sigma = (self.data.max() - self.data.min()) * sigmap
+            sigma = (self.data.max() - minz) * sigmap
             if self.rank == 0:
                 print('WARNING: Species niche width is not specified!')
                 print('A default width is defined based on elevational range: {:.3f}'.format(sigma))
@@ -191,7 +238,7 @@ class landscapeConnectivity(object):
         """
         # Create the cost surface based on the square of the difference in elevation between the considered
         # node and all the others vertices
-        weight = np.square( self.data - self.data[r, c] )
+        weight = np.square( self.nz - self.nz[r, c] )
 
         # From the weight-surface we create a 'landscape graph' object which can then be
         # analysed using distance-weighted minimum cost path
@@ -288,11 +335,11 @@ class landscapeConnectivity(object):
         for r in range(rsID[self.rank],reID[self.rank]):
             for c in range(0,self.nc):
                 if k%fout==0 and k>0:
-                    # print('  +  Processor {:4d} - Compute closeness between sites in {:.2f} s - completion: {:.2f} %'.format(self.rank,time.clock()-t1,k*100./steps))
                     if self.rank == 0:
                         print('  +  Compute closeness between sites in {:.2f} s - completion: {:.2f} %'.format(time.clock()-t1,k*100./steps))
                     t1 = time.clock()
-                localLEC += np.exp(-self.computeMinPath(r, c)/self.sigma2)
+                if self.nz[r,c]>=self.sealevel:
+                    localLEC += np.exp(-self.computeMinPath(r, c)/self.sigma2)
                 k += 1
 
         del startID
@@ -312,7 +359,6 @@ class landscapeConnectivity(object):
         self.comm.Reduce(flatLEC, valLEC, op=MPI.SUM, root=0)
         del flatLEC
         gc.collect()
-
         if self.rank == 0:
             self.LEC =  np.reshape(valLEC,(self.nr, self.nc))
 
