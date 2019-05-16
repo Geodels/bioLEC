@@ -44,8 +44,8 @@ This program is free software: you can redistribute it and/or modify it under th
   This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.
   You should have received a copy of the GNU Lesser General Public License along with this program.  If not, see http://www.gnu.org/licenses/lgpl-3.0.en.html.
 
-Community driven
-----------------
+How to contribute
+-----------------
 
 **We welcome all kinds of contributions!** Please get in touch if you would like to help out.
 
@@ -60,6 +60,13 @@ If you found a bug, have questions, or are just having trouble with **bioLEC**, 
 * open an issue in our issue-tracker_ and we'll try to help resolve the concern.
 
 .. _issue-tracker: https://github.com/Geodels/bioLEC/issues/new)
+
+Where to find support
+---------------------
+
+Please feel free to submit new issues to the issue-log_ to request new features, document new bugs, or ask questions.
+
+.. _issue-log: https://github.com/Geodels/bioLEC/issues/new)
 
 Indices and tables
 ------------------

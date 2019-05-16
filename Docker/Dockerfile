@@ -26,7 +26,7 @@ RUN ipython3 -c 'import bioLEC; bioLEC.documentation.install_documentation(path=
 ADD  --chown=jovyan:jovyan Notebooks/0-StartHere.ipynb Notebooks/0-StartHere.ipynb
 
 
-RUN python3 -m pip install --no-cache-dir --upgrade \
+RUN python3 -m pip install --no-cache-dir --upgrade nose \
    jupyterhub \
    git+https://github.com/OKaluza/LavaVu.git@afa8cd24e6dae7ffbacf9735db8e1affd85fd3df
 

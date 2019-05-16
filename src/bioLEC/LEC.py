@@ -27,10 +27,6 @@ import matplotlib.pyplot as plt
 from scipy.interpolate import RegularGridInterpolator
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
-import warnings
-warnings.filterwarnings('ignore')
-warnings.simplefilter(action = "ignore", category = FutureWarning)
-
 class landscapeConnectivity(object):
     """
     *Landscape elevational connectivity* (**LEC**) quantifies the closeness of a site to all others with
@@ -59,7 +55,7 @@ class landscapeConnectivity(object):
 
     caution:
         There are 3 ways to import the elevation dataset in bioLEC:
-        
+
             * either as a CSV file (argument: filename) containing 3 columns for X, Y and Z respectively with no header and ordered along the X axis first
             * or as a 3D numpy array (argument: XYZ) containing the X, Y and Z coordinates here again ordered along the X axis first
             * or as a 2D numpy array (argument: Z) containing the elevation matrix, in this case the dx argument is also required

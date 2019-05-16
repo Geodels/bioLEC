@@ -1,5 +1,5 @@
-What is LEC?
-============
+What is the LEC?
+================
 
 **LEC** quantifies the closeness of a site to all others with **similar elevation**.
 For a given landscape, LEC is primarily dependent on **elevation range** and on **species niche width**. It quantifies the closeness of any point in the landscape to all others at similar elevation.
