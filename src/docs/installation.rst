@@ -29,6 +29,8 @@ The complete list of Dependencies is available in the **src/requirements.txt** f
   matplotlib>=3.0
 
 
+Optionally, `lavavu <https://github.com/OKaluza/LavaVu>`_ is needed to support *interactive visualisation in Jupyter environment* (as shown in the notebook examples available from `binder <https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks>`_).
+
 Installing using pip
 --------------------
 
@@ -83,7 +85,22 @@ On Linux, to build the dockerfile locally, we provide a script. First ensure you
   $ source Docker/build-dockerfile.sh
 
 .. note::
-  For non-Linux platforms, the use of `Docker Desktop for Mac`_ or `Docker Desktop for Windows`_ is recommended.
+  For non-Linux platforms, the use of `Docker Desktop for Mac`_ or `Docker Desktop for Windows`_ is recommended. The docker container to look for is named **geodels/biolec**!
 
 .. _`Docker Desktop for Mac`: https://docs.docker.com/docker-for-mac/
 .. _`Docker Desktop for Windows`: https://docs.docker.com/docker-for-windows/
+
+
+Testing installation
+--------------------
+
+A test is provided to check the correct installation of the **bioLEC** package.If you've cloned the source into a directory :code:`bioLEC`, you may verify it as follows:
+
+Run the tests from bioLEC...
+
+.. code-block:: bash
+
+  $ python2 src/tests/testInstall.py
+  $ python3 src/tests/testInstall.py
+
+You will need to have all dependencies installed.

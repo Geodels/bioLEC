@@ -1,6 +1,19 @@
-Usage
-=====
+Quick start guide
+=================
 
+Input
+
+A simulation requires sets of times, frequencies, source positions and brightnesses, antenna positions, and direction-dependent primary beam responses. pyuvsim specifies times, frequencies, and array configuration via a UVData object (from the pyuvdata package), source positions and brightnesses via Source objects, and primary beams either through UVBeam or AnalyticBeam objects.
+
+All sources are treated as point sources, with flux specified in Stokes parameters and position in right ascension / declination in the International Celestial Reference Frame (equivalently, in J2000 epoch).
+Primary beams are specified as full electric field components, and are interpolated in angle and frequency. This allows for an exact Jones matrix to be constructed for each desired source position.
+Multiple beam models may be used throughout the array, allowing for more complex instrument responses to be modeled.
+These input objects may be made from a data file or from a set of yaml configuration files. See Running a simulation.
+
+Outputs
+
+Data from a simulation run are written out to a file in any format accessible with pyuvdata. This includes:
+When read into a UVData object, the history string will contain information on the pyuvsim and pyuvdata versions used for that run (including the latest git hash, if available), and details on the catalog used.
 
 Binder
 ------

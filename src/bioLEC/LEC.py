@@ -1,7 +1,10 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
+# -*- mode: python; coding: utf-8 -*
+# Copyright (c) 2019 Tristan Salles
+# Licensed under the GNU LGPL Version 3
 
 import gc
+import sys
 import time
 import numpy as np
 import pandas as pd
@@ -52,7 +55,8 @@ class landscapeConnectivity(object):
         connected (bool): computes the path based on the diagonal moves as well as the axial ones [default: True]
         delimiter (str):  elevation grid csv delimiter [default: ' ']
         sl (float):  sea level position used to remove marine points from the LEC calculation [default: -1.e6]
-
+        test (bool): set to True when testing the installation [defult: False]
+        
     caution:
         There are 3 ways to import the elevation dataset in bioLEC:
 
@@ -66,14 +70,15 @@ class landscapeConnectivity(object):
     """
 
     def __init__(self, filename=None, XYZ=None, Z=None, dx=None, periodic=False, symmetric=False,
-                 sigmap=0.1, sigmav=None, connected=True, delimiter=' ', sl=-1.e6):
+                 sigmap=0.1, sigmav=None, connected=True, delimiter=' ', sl=-1.e6, test=False):
 
         # Set MPI communications
         self.comm = MPI.COMM_WORLD
         self.size = self.comm.Get_size()
         self.rank = self.comm.Get_rank()
+        self.test = test
 
-        if self.rank == 0:
+        if self.rank == 0 and not self.test:
             print('bioLEC - LANDSCAPE ELEVATIONAL CONNECTIVITY')
             print('-------------------------------------------\n')
 
@@ -277,6 +282,14 @@ class landscapeConnectivity(object):
 
         return disps, startID, endID.astype(int)
 
+    def _test_progress(self, job_title, progress):
+        length = 20 # modify this to change the length
+        block = int(round(length*progress))
+        msg = "\r{0}: [{1}] {2}%".format(job_title, "#"*block + "-"*(length-block), round(progress*100, 2))
+        if progress >= 1: msg += " DONE\r\n"
+        sys.stdout.write(msg)
+        sys.stdout.flush()
+
     def computeLEC(self, fout=500):
         """
         This function computes the **minimum path for all nodes** in a given surface and
@@ -314,14 +327,14 @@ class landscapeConnectivity(object):
         else:
             steps = self.nNodes - int(displacements[self.rank])
 
-        if self.size > 1:
+        if self.size > 1 and not self.test:
             print('  +  Domain for processor {:3d} starts at row {:4d} and end at row {:4d}'.format(self.rank,rsID[self.rank],reID[self.rank]))
 
         del displacements
         gc.collect()
         self.comm.Barrier()
 
-        if self.rank == 0:
+        if self.rank == 0 and not self.test:
             print("\n Starting LEC computation... \n " )
 
         lc = reID[self.rank]-rsID[self.rank]
@@ -331,12 +344,15 @@ class landscapeConnectivity(object):
         for r in range(rsID[self.rank],reID[self.rank]):
             for c in range(0,self.nc):
                 if k%fout==0 and k>0:
-                    if self.rank == 0:
+                    if self.rank == 0 and not self.test:
                         print('  +  Compute closeness between sites in {:.2f} s - completion: {:.2f} %'.format(time.clock()-t1,k*100./steps))
+                    if self.test:
+                        self._test_progress("Test bioLEC installation:", k/steps)
                     t1 = time.clock()
                 if self.nz[r,c]>=self.sealevel:
                     localLEC += np.exp(-self.computeMinPath(r, c)/self.sigma2)
                 k += 1
+
 
         del startID
         gc.collect()
@@ -358,10 +374,23 @@ class landscapeConnectivity(object):
         if self.rank == 0:
             self.LEC =  np.reshape(valLEC,(self.nr, self.nc))
 
+        if self.test:
+            self._test_progress("Test bioLEC installation:", k/steps)
+            if abs(int(self.LEC.sum())-4283765.)<=1.:
+                if abs(int(self.LEC.max())-760.)<=1.:
+                    if abs(int(self.LEC.min())-26.)<=1.:
+                        print('All tests were successful...')
+                    else:
+                        print('Error when testing installation...',self.LEC.min())
+                else:
+                    print('Error when testing installation...',self.LEC.max())
+            else:
+                print('Error when testing installation...',self.LEC.sum())
+
         del valLEC
         gc.collect()
 
-        if self.rank == 0:
+        if self.rank == 0 and not self.test:
             print('\n Landscape Elevation Connectivity calculation took: {:.2f} s'.format(time.clock()-time0))
 
         return
