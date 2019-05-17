@@ -1,34 +1,133 @@
 Quick start guide
 =================
 
+I/O Options
+-----------
+
+The most simple code lines to use **bioLEC** package is summarised below
+
+.. code-block:: python
+  :emphasize-lines: 3,4
+
+  import bioLEC as bLEC
+
+  biodiv = bLEC.landscapeConnectivity(filename='pathtofile.csv')
+  biodiv.computeLEC()
+
+  biodiv.writeLEC('result')
+  biodiv.viewResult(imName='plot.png')
+
 Input
+*****
 
-A simulation requires sets of times, frequencies, source positions and brightnesses, antenna positions, and direction-dependent primary beam responses. pyuvsim specifies times, frequencies, and array configuration via a UVData object (from the pyuvdata package), source positions and brightnesses via Source objects, and primary beams either through UVBeam or AnalyticBeam objects.
+The entry point is the function :code:`landscapeConnectivity()` that requires the **elevation** field as it main input.
+There are 3 ways to import the elevation dataset :
 
-All sources are treated as point sources, with flux specified in Stokes parameters and position in right ascension / declination in the International Celestial Reference Frame (equivalently, in J2000 epoch).
-Primary beams are specified as full electric field components, and are interpolated in angle and frequency. This allows for an exact Jones matrix to be constructed for each desired source position.
-Multiple beam models may be used throughout the array, allowing for more complex instrument responses to be modeled.
-These input objects may be made from a data file or from a set of yaml configuration files. See Running a simulation.
+.. image:: ../bioLEC/Notebooks/images/LECres.jpg
+   :scale: 38 %
+   :alt: boundary conditions
+   :align: center
+
+* as a :code:`CSV` file (argument: :code:`filename`) containing 3 columns for X, Y and Z respectively with no header and ordered along the X axis first (as illustrated in the top figure) and shown below:
+
+  .. math::
+    \begin{smallmatrix}
+     x_0 & y_0 & z_{0,0} \\
+     x_1 & y_0 & z_{1,0} \\
+     \vdots & \vdots & \vdots \\
+     x_m & y_0 & z_{m,0} \\
+     x_0 & y_1 & z_{0,1} \\
+     \vdots & \vdots & \vdots \\
+     x_m & y_n & z_{m,n} \\
+     \end{smallmatrix}
+
+* as a 3D numpy array (argument: :code:`XYZ`) containing the X, Y and Z coordinates here again ordered along the X axis first (as above)
+* or as a 2D numpy array (argument: :code:`Z`) containing the elevation matrix (example provided below), in this case the :code:`dx` argument is also required
+
+  .. math::
+    \begin{smallmatrix}
+     z_{0,0} & z_{1,0} & \cdots & z_{m-1,0} & z_{m,0} \\
+     \vdots & \vdots & \vdots & \vdots & \vdots \\
+     z_{0,k} & z_{1,k} & \cdots & z_{m-1,k} & z_{m,k} \\
+     \vdots & \vdots & \vdots & \vdots & \vdots \\
+     z_{0,n} & z_{1,n} & \cdots & z_{m-1,n} & z_{m,n} \\
+     \end{smallmatrix}
+
+In addition to the elevation field, the user could specify the **boundary conditions** used to compute the LEC. Two options are available: :code:`periodic` or :code:`symmetric` boundaries. The way these two boundaries are implemented in **bioLEC** is illustrated in the figure below as well as the impact on the LEC calculation.
+
+.. image:: ../bioLEC/Notebooks/images/boundcond.jpg
+   :scale: 35 %
+   :alt: boundary conditions
+   :align: center
+
+Finally the LEC solution requires the declaration of the **species niche width** defined by the variable :code:`sigma` in the following equation (look in the `What is LEC? section <https://biolec.readthedocs.io/en/latest/method.html>`_ for more information):
+
+.. math::
+   -\ln C_{ji} = \frac{1}{2\sigma^2} \min_{p  \in \{j\rightarrow i\}} \sum_{r=2}^L (z_{k_r}-z_j)^2
+
+
+.. image:: ../bioLEC/Notebooks/images/fitness.jpg
+   :scale: 40 %
+   :alt: boundary conditions
+   :align: center
+
+The above figure from [Bertuzzo16]_ shows the habitat maps as a function of elevation for a real fluvial landscape when considering the fitness of three different species as a function of elevation. The fitness maps of the three species are shown on the bottom panels. In **bioLEC** two options are possible:
+
+* either the user specifies a species niche width percentage based on elevation extent with the parameter :code:`sigmap`
+* or a species niche fixed width values with the declaration of the parameter :code:`sigmav`
 
 Outputs
+*******
 
-Data from a simulation run are written out to a file in any format accessible with pyuvdata. This includes:
-When read into a UVData object, the history string will contain information on the pyuvsim and pyuvdata versions used for that run (including the latest git hash, if available), and details on the catalog used.
+.. code-block:: python
+  :emphasize-lines: 6,7
+
+  import bioLEC as bLEC
+
+  biodiv = bLEC.landscapeConnectivity(filename='pathtofile.csv')
+  biodiv.computeLEC()
+
+  biodiv.writeLEC('result')
+  biodiv.viewResult(imName='plot.png')
+
+Once the :code:`computeLEC()` function has been ran, the result are then available in different forms.
+
+From the :code:`writeLEC` function, the user can first save the dataset in :code:`CSV` and :code:`VTK` formats containing the X,Y,Z coordinates as well as the computed LEC and normalised LEC (_nLEC_).
+
+Then several figures can be created showing **maps of elevation and LEC values** as well as graphs of LEC and elevation frequency as a function of site elevation (such as the figure presented below). In some functions, one can plot the average and error bars of LEC within elevational bands.
+
+.. image:: ../bioLEC/Notebooks/images/graph.jpg
+   :scale: 45 %
+   :alt: boundary conditions
+   :align: center
+
+Available plotting functions are provided below:
+
+* :code:`viewResult`
+* :code:`viewElevFrequency`
+* :code:`viewLECFrequency`
+* :code:`viewLECZbar`
+* :code:`viewLECZFrequency`
+
+For a complete list of available options, users need to go to the `API documentation <https://biolec.readthedocs.io/en/latest/bioLEC.html#bioLEC.LEC.landscapeConnectivity.viewLECFrequency>`_.
+
+Running examples
+----------------
 
 Binder
-------
+******
 
 .. image:: https://mybinder.org/badge_logo.svg
   :target: https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks
 
 
 Notebooks
----------
+*********
 
 An example is provided...
 
 HPC
----
+***
 
 The tool can be used to compute the **LEC** for any landscape file as long as the data is available from a **CSV file containing 3D coordinates (X,Y,Z)**.
 
@@ -98,3 +197,10 @@ The python script ``runLEC.py`` is defined by:
       biodiv.viewLECZFrequency(input=args.output+'.csv',imName=args.output+'_leczfreq.png')
       biodiv.viewLECFrequency(input=args.output+'.csv',imName=args.output+'_lecfreq.png')
       biodiv.viewLECZbar(input=args.output+'.csv',imName=args.output+'_lecbar.png')
+
+
+
+.. [Bertuzzo16] E. Bertuzzo, F. Carrara, L. Mari, F. Altermatt, I. Rodriguez-Iturbe & A. Rinaldo -
+  Geomorphic controls on species richness. PNAS, 113(7) 1737-1742, `DOI: 10.1073/pnas.1518922113`_, 2016.
+
+.. _`DOI: 10.1073/pnas.1518922113`: http://www.pnas.org/cgi/doi/10.1073/pnas.1518922113

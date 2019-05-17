@@ -56,7 +56,7 @@ class landscapeConnectivity(object):
         delimiter (str):  elevation grid csv delimiter [default: ' ']
         sl (float):  sea level position used to remove marine points from the LEC calculation [default: -1.e6]
         test (bool): set to True when testing the installation [defult: False]
-        
+
     caution:
         There are 3 ways to import the elevation dataset in bioLEC:
 
@@ -407,8 +407,6 @@ class landscapeConnectivity(object):
             cmap2 : color map for LEC grid [default: cmap2=plt.cm.coolwarm]
             dpi  (int): resolution of the saved image [default: 200]
 
-        Warning:
-            The filename needs to be provided without extension.
         """
 
         rcParams['figure.figsize'] = size
