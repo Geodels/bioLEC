@@ -114,41 +114,65 @@ For a complete list of available options, users need to go to the `API documenta
 Running examples
 ----------------
 
-Binder
-******
+There are different ways of using the **bioLEC** package. If you used a local install with :code:`pip`, you can download the *Jupyter Notebooks* provided in the Github repository...
+
+.. code-block:: bash
+
+  $ git clone https://github.com/Geodels/bioLEC.git
+
+
+Binder & Docker
+***************
+
+The series of *Jupyter Notebooks* can also be ran with **Binder** that opens those notebooks in an executable environment, making the package immediately reproducible without having to perform any installation.
 
 .. image:: https://mybinder.org/badge_logo.svg
   :target: https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks
 
+This is by far the most simple method to test and try this package, just
+launch the demonstration at `bioLEC-live (mybinder.org) <https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks>`_!
 
-Notebooks
-*********
+.. image:: ../bioLEC/Notebooks/images/binder.jpg
+   :scale: 30 %
+   :alt: boundary conditions
+   :align: center
 
-An example is provided...
 
-HPC
-***
+Another straightforward installation that again does not depend on specific compilers relies on the **docker virtualisation system**. Simply look for the following Docker container **geodels/biolec**.
 
-The tool can be used to compute the **LEC** for any landscape file as long as the data is available from a **CSV file containing 3D coordinates (X,Y,Z)**.
+.. note::
+  For non-Linux platforms, the use of `Docker Desktop for Mac`_ or `Docker Desktop for Windows`_ is recommended.
+
+.. _`Docker Desktop for Mac`: https://docs.docker.com/docker-for-mac/
+.. _`Docker Desktop for Windows`: https://docs.docker.com/docker-for-windows/
+
+HPC & Terminal
+**************
+
+The tool can be used to compute the **LEC** for any landscape file as long as the data is available from a **CSV file containing 3D coordinates (X,Y,Z) with no header and space delimiter**.
 
 .. attention::
   Notebooks environment will not be the best option for **large landscape models** and we will recommend the use of the python script: ``runLEC.py`` in **HPC environment**.
 
-In this case, the code will need to be
-
+In this case, the code will be ran  from a terminal like this:
 
 .. code-block:: bash
 
-  $ mpirun -np XX python runLEC.py
+  $ mpirun -np XX python runLEC.py -i 'xyzfile.csv' -o 'result'
 
-with XX represents the number of processor to use.
+where XX represents the number of processors to use.
 
-The python script ``runLEC.py`` is defined by:
+The python script ``runLEC.py`` is provided in the same folder as the Jupyter notebooks and is defined by:
 
 .. code-block:: python
 
   import argparse
-  from bioLEC import LEC
+  from mpi4py import MPI
+  import bioLEC as LEC
+
+  comm = MPI.COMM_WORLD
+  size = comm.Get_size()
+  rank = comm.Get_rank()
 
   # Parsing command line arguments
   parser = argparse.ArgumentParser(description='This is a simple entry to run bioLEC package from python.',add_help=True)
@@ -163,14 +187,13 @@ The python script ``runLEC.py`` is defined by:
   parser.add_argument('-w','--width',help='Float option for species niche width percentage', required=False, action="store_true", default=0.1)
   parser.add_argument('-f','--fix',help='Float option for species niche width fix values', required=False, action="store_true", default=None)
   parser.add_argument('-c','--connected',help='True/false option for computing the path based on the diagonal moves as well as the axial ones', required=False, action="store_true", default=True)
-  parser.add_argument('-t','--top',help='Header lines in the elevation grid', required=False, action="store_true", default=0)
   parser.add_argument('-n','--nout',help='Number for output frequency during run', required=False, action="store_true", default=500)
-  parser.add_argument('-d','--delimiter',help='String for elevation grid csv delimiter', required=False,action="store_true",default=',')
+  parser.add_argument('-d','--delimiter',help='String for elevation grid csv delimiter', required=False,action="store_true",default=' ')
+  parser.add_argument('-l','--level',help='Float for sea level position', required=False,action="store_true",default=-1.e6)
   parser.add_argument('-v','--verbose',help='True/false option for verbose', required=False,action="store_true",default=False)
 
-
   args = parser.parse_args()
-  if args.verbose:
+  if args.verbose and rank == 0:
     print("Required arguments: ")
     print("   + Input file: {}".format(args.input))
     print("   + Output file without extension: {}".format(args.output))
@@ -181,22 +204,23 @@ The python script ``runLEC.py`` is defined by:
     print("   + Species niche width based on elevation extent: {}".format(args.fix))
     print("   + Computes the path based on the diagonal moves as well as the axial ones: {}".format(args.connected))
     print("   + Elevation grid csv delimiter: {}".format(args.delimiter))
-    print("   + Number of header lines: {}".format(args.top))
+    print("   + Sea level position: {}".format(args.level))
     print("   + Number for output frequency: {}\n".format(args.nout))
 
   biodiv = LEC.landscapeConnectivity(filename=args.input,periodic=args.periodic,symmetric=args.symmetric,
                                       sigmap=args.width,sigmav=args.fix,connected=args.connected,
-                                      delimiter=args.delimiter,header=args.top)
+                                      delimiter=args.delimiter,sl=args.level)
 
   biodiv.computeLEC(args.nout)
 
   biodiv.writeLEC(args.output)
-  if biodiv.rank == 0:
+
+  if rank == 0:
       biodiv.viewResult(imName=args.output+'.png')
-      biodiv.viewElevFrequency(input=args.output+'.csv',imName=args.output+'_zfreq.png')
-      biodiv.viewLECZFrequency(input=args.output+'.csv',imName=args.output+'_leczfreq.png')
-      biodiv.viewLECFrequency(input=args.output+'.csv',imName=args.output+'_lecfreq.png')
-      biodiv.viewLECZbar(input=args.output+'.csv',imName=args.output+'_lecbar.png')
+      biodiv.viewElevFrequency(input=args.output,imName=args.output+'_zfreq.png')
+      biodiv.viewLECZFrequency(input=args.output,imName=args.output+'_leczfreq.png')
+      biodiv.viewLECFrequency(input=args.output,imName=args.output+'_lecfreq.png')
+      biodiv.viewLECZbar(input=args.output,imName=args.output+'_lecbar.png')
 
 
 
