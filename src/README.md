@@ -61,7 +61,7 @@ source Docker/build-dockerfile.sh
 
 Launch the demonstration at [mybinder.org](https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks)
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks%2F0-StartHere.ipynb)
 
 
 ![LEC computation](https://github.com/Geodels/bioLEC/blob/master/src/bioLEC/Notebooks/images/boundcond.jpg?raw=true)
