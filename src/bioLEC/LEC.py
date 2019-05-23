@@ -55,7 +55,6 @@ class landscapeConnectivity(object):
         connected (bool): computes the path based on the diagonal moves as well as the axial ones [default: True]
         delimiter (str):  elevation grid csv delimiter [default: ' ']
         sl (float):  sea level position used to remove marine points from the LEC calculation [default: -1.e6]
-        test (bool): set to True when testing the installation [defult: False]
 
     caution:
         There are 3 ways to import the elevation dataset in bioLEC:
@@ -283,7 +282,7 @@ class landscapeConnectivity(object):
         return disps, startID, endID.astype(int)
 
     def _test_progress(self, job_title, progress):
-        length = 20 # modify this to change the length
+        length = 20
         block = int(round(length*progress))
         msg = "\r{0}: [{1}] {2}%".format(job_title, "#"*block + "-"*(length-block), round(progress*100, 2))
         if progress >= 1: msg += " DONE\r\n"
@@ -473,13 +472,13 @@ class landscapeConnectivity(object):
         """
 
         data = pd.read_csv(input+'.csv')
-
-        ax = data.Z.plot(kind='hist', color='Blue', alpha=0.2, bins=nbins, xlim=(data.Z.min(),data.Z.max()))
+        minZ = max(self.sealevel,data.Z.min())
+        ax = data.Z.plot(kind='hist', color='Blue', alpha=0.2, bins=nbins, xlim=(minZ,data.Z.max()))
 
         ax.set_title('Elevation frequency as function of site elevation', fontsize=fsize)
 
         plt.xlabel('Elevation', fontsize=fsize-1)
-        fig = data.Z.plot(kind='density', figsize=size, ax=ax, xlim=(data.Z.min(),data.Z.max()),
+        fig = data.Z.plot(kind='density', figsize=size, ax=ax, xlim=(minZ,data.Z.max()),
                        linewidth=4, fontsize = fsize-3, secondary_y=True, y='Density').get_figure()
 
         ax.set_ylabel('Frequency count', fontsize=fsize-1)
@@ -519,9 +518,10 @@ class landscapeConnectivity(object):
         """
 
         data = pd.read_csv(input+'.csv')
+        minZ = max(self.sealevel,data['Z'].min())
 
         ff = data.plot(kind='scatter', x='Z', y='LEC', c='white', edgecolors='lightgray', figsize=size,
-                  xlim=(data['Z'].min(),data['Z'].max()), s=5)
+                  xlim=(minZ,data['Z'].max()), s=5)
 
         ff.set_title('Landscape elevational connectivity as function of site elevation', fontsize=fsize)
 
@@ -563,6 +563,7 @@ class landscapeConnectivity(object):
         """
 
         data = pd.read_csv(input+'.csv')
+
         n, _ = np.histogram(data.Z, bins=nbins)
         sy, _ = np.histogram(data.Z, bins=nbins, weights=data.LEC)
         sy2, _ = np.histogram(data.Z, bins=nbins, weights=data.LEC*data.LEC)
@@ -575,7 +576,8 @@ class landscapeConnectivity(object):
 
         plt.plot((_[1:] + _[:-1])/2, mean,color='steelblue',zorder=2,linewidth=3)
         plt.scatter(data.Z, data.LEC, c='w',edgecolors='lightgray', zorder=0,alpha=1.,s=5)
-        ax.set_xlim(data.Z.min(),data.Z.max())
+        minZ = max(data.Z.min(),self.sealevel)
+        ax.set_xlim(minZ,data.Z.max())
         ax.tick_params(axis='x', labelsize=fsize-3)
         ax.tick_params(axis='y', labelsize=fsize-3)
 
@@ -589,7 +591,7 @@ class landscapeConnectivity(object):
             cap.set_markeredgewidth(1)
 
         ax2=ax.twinx()
-        data.Z.plot(kind='density',secondary_y=True, ax=ax2, xlim=(data.Z.min(),data.Z.max()),
+        data.Z.plot(kind='density',secondary_y=True, ax=ax2, xlim=(minZ,data.Z.max()),
                        color='green', linewidth=3, zorder=0, fontsize = fsize-3)
 
         plt.ylabel('Density', color='green', fontsize=fsize-1)
@@ -625,15 +627,15 @@ class landscapeConnectivity(object):
         """
 
         data = pd.read_csv(input+'.csv')
-
+        minZ = max(self.sealevel,data['Z'].min())
         ax = data.plot(kind='scatter', x='Z', y='LEC', c='white', edgecolors='lightgray', figsize=size,
-                  xlim=(data['Z'].min(),data['Z'].max()), s=5)
+                  xlim=(minZ,data['Z'].max()), s=5)
 
         ax.set_title('Landscape elevational connectivity as function of site elevation', fontsize=fsize)
 
         plt.xlabel('Elevation', fontsize=fsize-1)
         ax2=ax.twinx()
-        fig = data.Z.plot(kind='density',secondary_y=True, ax=ax2, xlim=(data['Z'].min(),data['Z'].max()),
+        fig = data.Z.plot(kind='density',secondary_y=True, ax=ax2, xlim=(minZ,data['Z'].max()),
                        fontsize = fsize-3, linewidth=4).get_figure()
 
         ax.set_ylabel('LEC', fontsize=fsize-1)

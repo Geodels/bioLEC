@@ -34,6 +34,7 @@ if __name__ == "__main__":
                         'scipy>=0.15.0',
                         'pandas',
                         'mpi4py',
+                        'rasterio>=1.0.23',
                         'scikit-image'],
           python_requires   = '>=2.7, >=3.5',
           package_data      = {'bioLEC': ['Notebooks/notebooks/*ipynb',

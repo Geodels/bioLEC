@@ -8,4 +8,5 @@ scipy>=1.2
 scikit-image>=0.15
 pyevtk>=1.1.1
 matplotlib>=3.0
+rasterio>=1.0.23
 nose>=1.3

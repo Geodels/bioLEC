@@ -27,6 +27,7 @@ ADD  --chown=jovyan:jovyan Notebooks/0-StartHere.ipynb Notebooks/0-StartHere.ipy
 
 
 RUN python3 -m pip install --no-cache-dir --upgrade nose \
+   rasterio \
    jupyterhub \
    git+https://github.com/OKaluza/LavaVu.git@afa8cd24e6dae7ffbacf9735db8e1affd85fd3df
 
