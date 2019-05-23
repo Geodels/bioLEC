@@ -3,7 +3,7 @@
 [![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/geodels/biolec.svg)](https://hub.docker.com/r/geodels/biolec)
 [![PyPI](https://img.shields.io/pypi/v/bioLEC.svg)](https://pypi.org/project/bioLEC/) [![Documentation Status](https://readthedocs.org/projects/biolec/badge/?version=latest)](https://biolec.readthedocs.io/en/latest/?badge=latest)
 
-**bioLEC** documentation is found at [**https://biolec.readthedocs.io/**](https://biolec.readthedocs.io/)
+**bioLEC** documentation is found at [**https://biolec.readthedocs.io/**](http://biolec.readthedocs.io/)
 
 **bioLEC** is a parallel python package built to calculate the *Landscape elevational connectivity* (**LEC**).
 
@@ -63,11 +63,8 @@ Launch the demonstration at [mybinder.org](https://mybinder.org/v2/gh/Geodels/bi
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks)
 
-***
 
-![LEC computation](https://github.com/Geodels/bioLEC/blob/master/Notebooks/images/fig1.jpg?raw=true)
-
-***
+![LEC computation](https://github.com/Geodels/bioLEC/blob/master/src/bioLEC/Notebooks/images/boundcond.jpg?raw=true)
 
   > _Notebooks environment_ will not be the best option for _large landscape models_ and we will recommend the use of the python script: `runLEC.py` in HPC environment. the code will need to be
 
@@ -79,9 +76,7 @@ Or using the Docker container available through Kitematic **geodels/biolec**.
 
 [![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/geodels/biolec.svg)](https://hub.docker.com/r/geodels/biolec)
 
-***
-
-![LEC computation](https://github.com/Geodels/bioLEC/blob/master/Notebooks/images/fig3.jpg?raw=true)
+![LEC computation](https://github.com/Geodels/bioLEC/blob/master/src/bioLEC/Notebooks/images/fig3.jpg?raw=true)
 
 ## Collaborations
 
