@@ -5,6 +5,7 @@ include COPYING.LESSER
 include bioLEC/__init__.py
 include bioLEC/LEC.py
 include bioLEC/documentation.py
+include bioLEC/Notebooks/notebooks/*.py
 include bioLEC/Notebooks/notebooks/*.ipynb
 include bioLEC/Notebooks/images/*
 include bioLEC/Notebooks/dataset/*

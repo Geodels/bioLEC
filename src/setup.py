@@ -38,6 +38,7 @@ if __name__ == "__main__":
                         'scikit-image'],
           python_requires   = '>=2.7, >=3.5',
           package_data      = {'bioLEC': ['Notebooks/notebooks/*ipynb',
+                                          'Notebooks/notebooks/*py',
                                           'Notebooks/dataset/*',
                                           'Notebooks/images/*'] },
           include_package_data = True,

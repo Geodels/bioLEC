@@ -1,39 +1,16 @@
-# bioLEC - a parallel Landscape Elevational Connectivity package 
+# bioLEC - a parallel Landscape Elevational Connectivity package
 
 [![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/geodels/biolec.svg)](https://hub.docker.com/r/geodels/biolec)
 [![PyPI](https://img.shields.io/pypi/v/bioLEC.svg)](https://pypi.org/project/bioLEC/) [![Documentation Status](https://readthedocs.org/projects/biolec/badge/?version=latest)](https://biolec.readthedocs.io/en/latest/?badge=latest)
-      
 
-This folder contains notebooks to compute **landscape elevational connectivity** described in Bertuzzo et al. (2016) using a parallel LECmetrics python code.
-
-#### Binder
-
-Launch the demonstration at [mybinder.org](https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks)
-
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks)
+**bioLEC** documentation is found at [**https://biolec.readthedocs.io/**](https://biolec.readthedocs.io/)
 
 
-## Navigation / Notebooks
+![bioLEC](https://github.com/Geodels/bioLEC/blob/master/Notebooks/images/intro.jpg?raw=true)
 
-### Examples
+  > **bioLEC** is a parallel python package built to calculate the *Landscape elevational connectivity* (**LEC**).
 
-***
-
-![LEC computation](https://github.com/Geodels/bioLEC/blob/master/Notebooks/images/fig1.jpg?raw=true)
-
-***
-
-Notebooks environment will not be the best option for large landscape models and we will recommend the use of the python script: `runLEC.py` in HPC environment. the code will need to be
-
-```bash
-mpirun -np 400 python runLEC.py
-```
-
-The tool can be used to compute the LEC for any landscape file (X,Y,Z) and IPython functions are provided to extract output data directly from pyBadlands model.
-
-***
-
-![LEC computation](https://github.com/Geodels/bioLEC/blob/master/Notebooks/images/fig3.jpg?raw=true)
+**LEC** quantifies the closeness of a site to all others with **similar elevation**. It measures how easily a **species living in a given patch can spread and colonise other patches**. It is assumed to be **elevation-dependent** and the metric depends on how often a species adapted to a given elevation *needs to travel outside its optimal elevation range* when moving from its patch to any other in the landscape [Bertuzzo et al., 2016].
 
 ***
 
@@ -79,11 +56,60 @@ cd bioLEC
 source Docker/build-dockerfile.sh
 ```
 
-
 ## Usage
 
-A series of tests are located in the *tests* subdirectory.
+### Binder & docker container
 
+Launch the demonstration at [mybinder.org](https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks)
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks)
+
+***
+
+![LEC computation](https://github.com/Geodels/bioLEC/blob/master/Notebooks/images/fig1.jpg?raw=true)
+
+***
+
+  > _Notebooks environment_ will not be the best option for _large landscape models_ and we will recommend the use of the python script: `runLEC.py` in HPC environment. the code will need to be
+
+```bash
+mpirun -np 400 python runLEC.py
+```
+
+Or using the Docker container available through Kitematic **geodels/biolec**.
+
+[![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/geodels/biolec.svg)](https://hub.docker.com/r/geodels/biolec)
+
+***
+
+![LEC computation](https://github.com/Geodels/bioLEC/blob/master/Notebooks/images/fig3.jpg?raw=true)
+
+## Collaborations
+
+### How to contribute?
+
+**We welcome all kinds of contributions!** Please get in touch if you would like to help out.
+
+ > Everything from **code** to **notebooks** to **examples** and **documentation** are all equally valuable so please don't feel you can't contribute.
+
+To contribute please **fork the project make your changes and submit a pull request**. We will do our best to work through any issues with you and get your code merged into the main branch.
+
+If you found a bug, have questions, or are just having trouble with **bioLEC**, you can:
+
++ join the **bioLEC User Group on Slack** by sending an email request to: tristan.salles@sydney.edu.au
++ open an issue in our [issue-tracker](https://github.com/Geodels/bioLEC/issues/new) and we'll try to help resolve the concern.
+
+### Where to find support?
+
+Please feel free to submit new issues to the [issue-log](https://github.com/Geodels/bioLEC/issues/new) to request new features, document new bugs, or ask questions.
+
+
+### License
+
+This program is free software: you can redistribute it and/or modify it under the terms of the **GNU Lesser General Public License** as published by the **Free Software Foundation**, either version 3 of the License, or (at your option) any later version.
+
+  > This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.
+  You should have received a copy of the GNU Lesser General Public License along with this program.  If not, see http://www.gnu.org/licenses/lgpl-3.0.en.html.
 
 ## References
 
