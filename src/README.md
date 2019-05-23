@@ -59,7 +59,7 @@ source Docker/build-dockerfile.sh
 
 ### Binder & docker container
 
-Launch the demonstration at [mybinder.org](https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks)
+Launch the demonstration at [mybinder.org](https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks%2F0-StartHere.ipynb)
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks%2F0-StartHere.ipynb)
 
