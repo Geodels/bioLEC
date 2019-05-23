@@ -127,10 +127,10 @@ Binder & Docker
 The series of *Jupyter Notebooks* can also be ran with **Binder** that opens those notebooks in an executable environment, making the package immediately reproducible without having to perform any installation.
 
 .. image:: https://mybinder.org/badge_logo.svg
-  :target: https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks
+  :target: https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks%2F0-StartHere.ipynb
 
 This is by far the most simple method to test and try this package, just
-launch the demonstration at `bioLEC-live (mybinder.org) <https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks>`_!
+launch the demonstration at `bioLEC-live (mybinder.org) <https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks%2F0-StartHere.ipynb>`_!
 
 .. image:: ../bioLEC/Notebooks/images/binder.jpg
    :scale: 30 %
