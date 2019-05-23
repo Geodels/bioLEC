@@ -27,6 +27,7 @@ The complete list of Dependencies is available in the **src/requirements.txt** f
   scikit-image>=0.15
   pyevtk>=1.1.1
   matplotlib>=3.0
+  rasterio>=1.0.23
 
 
 Optionally, `lavavu <https://github.com/OKaluza/LavaVu>`_ is needed to support *interactive visualisation in Jupyter environment* (as shown in the notebook examples available from `binder <https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks>`_).
