@@ -5,14 +5,12 @@
 
 **bioLEC** documentation is found at [**https://biolec.readthedocs.io/**](https://biolec.readthedocs.io/)
 
+**bioLEC** is a parallel python package built to calculate the *Landscape elevational connectivity* (**LEC**).
 
 ![bioLEC](https://github.com/Geodels/bioLEC/blob/master/Notebooks/images/intro.jpg?raw=true)
 
-  > **bioLEC** is a parallel python package built to calculate the *Landscape elevational connectivity* (**LEC**).
 
 **LEC** quantifies the closeness of a site to all others with **similar elevation**. It measures how easily a **species living in a given patch can spread and colonise other patches**. It is assumed to be **elevation-dependent** and the metric depends on how often a species adapted to a given elevation *needs to travel outside its optimal elevation range* when moving from its patch to any other in the landscape [Bertuzzo et al., 2016].
-
-***
 
 ## Installation
 
@@ -26,6 +24,7 @@ Also, the following packages are required:
  - [`pandas`](https://pandas.pydata.org/)
  - [`mpi4py`](https://pypi.org/project/mpi4py/)
  - [`scikit-image`](https://scikit-image.org/)
+ - [`rasterio`](https://pypi.org/project/rasterio/)
 
 ### Installing using pip
 
