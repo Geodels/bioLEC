@@ -2,7 +2,7 @@
 #  Short docker file to distribute some notebooks
 #################################################
 
-ARG FROMIMG_ARG=geodels/geodels-bundle:latest
+ARG FROMIMG_ARG=geodels/biolec-bundle:latest
 FROM ${FROMIMG_ARG}
 
 ##################################################
@@ -17,7 +17,7 @@ RUN apt-get update -qq && \
 
 ### bioLEC - Notebooks
 
-ENV MODULE_DIR="bioLEC-src"
+ENV MODULE_DIR="src"
 ADD --chown=jovyan:jovyan $MODULE_DIR $MODULE_DIR
 RUN   cd $MODULE_DIR && python3 -m pip install --no-cache-dir --no-deps --upgrade .
 
@@ -26,7 +26,8 @@ RUN ipython3 -c 'import bioLEC; bioLEC.documentation.install_documentation(path=
 ADD  --chown=jovyan:jovyan Notebooks/0-StartHere.ipynb Notebooks/0-StartHere.ipynb
 
 
-RUN python3 -m pip install --no-cache-dir --upgrade \
+RUN python3 -m pip install --no-cache-dir --upgrade nose \
+   rasterio \
    jupyterhub \
    git+https://github.com/OKaluza/LavaVu.git@afa8cd24e6dae7ffbacf9735db8e1affd85fd3df
 
