@@ -33,7 +33,7 @@ Estimates of some of theses landscape abiotic properties are already available t
 
 # `bioLEC`
 
-![An example of LEC map obtained for a specific elevation surface (left) illustrating the region of high and low connectivity as well as the distribution of resulting LEC values versus elevation range.\label{fig:example}](Fig1.jpg)
+![An example of LEC map obtained for a specific elevation surface (left) illustrating the region of high and low connectivity as well as the distribution of resulting LEC values versus elevation range.\label{fig:example}](fig1.jpg)
 
 In 2016, a new metric called the _Landscape Elevational Connectivity_ (**LEC**) was proposed to estimate biodiversity in mountainous landscape [@Bertuzzo:2016]. It efficiently measures the landscape resistance to migration and is able to account for up to 70% of biodiversity predicted by meta-community models [@Bertuzzo:2016].
 
