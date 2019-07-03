@@ -103,3 +103,10 @@ Navigate the the directory `src/tests` and run the tests.
   $ python3 testInstall.py
 
 You will need to have all dependencies installed.
+
+The following result indicates success.
+
+.. code-block:: bash
+
+  $ Test bioLEC installation:: [####################] 100.0% DONE
+  $ All tests were successful...
