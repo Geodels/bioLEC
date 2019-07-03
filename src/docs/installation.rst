@@ -60,7 +60,6 @@ Navigate into the bioLEC directory and run
 
   $ cd src/
   $ pip install -r requirements.txt
-  $ pip install bioLEC
   $ pip install .
 
 
