@@ -20,7 +20,6 @@ The complete list of Dependencies is available in the **src/requirements.txt** f
   numpy>=1.15
   six>=1.11.0
   setuptools>=38.4.0
-  scipy>=1.0.1
   mpi4py>=3.0.0
   pandas>=0.24
   scipy>=1.2
