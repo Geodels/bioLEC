@@ -95,11 +95,11 @@ Testing installation
 
 A test is provided to check the correct installation of the **bioLEC** package.If you've cloned the source into a directory :code:`bioLEC`, you may verify it as follows:
 
-Run the tests from bioLEC...
+Navigate the the directory `src/tests` and run the tests.
 
 .. code-block:: bash
 
-  $ python2 src/tests/testInstall.py
-  $ python3 src/tests/testInstall.py
+  $ python2 testInstall.py
+  $ python3 testInstall.py
 
 You will need to have all dependencies installed.
