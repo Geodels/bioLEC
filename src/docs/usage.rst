@@ -23,7 +23,7 @@ Input
 The entry point is the function :code:`landscapeConnectivity()` that requires the **elevation** field as it main input.
 There are 3 ways to import the elevation dataset :
 
-.. image:: ../../Notebooks/images/LECres.jpg
+.. image:: ../bioLEC/Notebooks/images/LECres.jpg
    :scale: 38 %
    :alt: boundary conditions
    :align: center
@@ -55,7 +55,7 @@ There are 3 ways to import the elevation dataset :
 
 In addition to the elevation field, the user could specify the **boundary conditions** used to compute the LEC. Two options are available: :code:`periodic` or :code:`symmetric` boundaries. The way these two boundaries are implemented in **bioLEC** is illustrated in the figure below as well as the impact on the LEC calculation.
 
-.. image:: ../../Notebooks/images/boundcond.jpg
+.. image:: ../bioLEC/Notebooks/images/boundcond.jpg
    :scale: 35 %
    :alt: boundary conditions
    :align: center
@@ -66,7 +66,7 @@ Finally the LEC solution requires the declaration of the **species niche width**
    -\ln C_{ji} = \frac{1}{2\sigma^2} \min_{p  \in \{j\rightarrow i\}} \sum_{r=2}^L (z_{k_r}-z_j)^2
 
 
-.. image:: ../../Notebooks/images/fitness.jpg
+.. image:: ../bioLEC/Notebooks/images/fitness.jpg
    :scale: 40 %
    :alt: boundary conditions
    :align: center
@@ -96,7 +96,7 @@ From the :code:`writeLEC` function, the user can first save the dataset in :code
 
 Then several figures can be created showing **maps of elevation and LEC values** as well as graphs of LEC and elevation frequency as a function of site elevation (such as the figure presented below). In some functions, one can plot the average and error bars of LEC within elevational bands.
 
-.. image:: ../../Notebooks/images/graph.jpg
+.. image:: ../bioLEC/Notebooks/images/graph.jpg
    :scale: 45 %
    :alt: boundary conditions
    :align: center
@@ -132,7 +132,7 @@ The series of *Jupyter Notebooks* can also be ran with **Binder** that opens tho
 This is by far the most simple method to test and try this package, just
 launch the demonstration at `bioLEC-live (mybinder.org) <https://mybinder.org/v2/gh/Geodels/bioLEC/binder?filepath=Notebooks%2F0-StartHere.ipynb>`_!
 
-.. image:: ../../Notebooks/images/binder.jpg
+.. image:: ../bioLEC/Notebooks/images/binder.jpg
    :scale: 30 %
    :alt: boundary conditions
    :align: center
