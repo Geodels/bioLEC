@@ -28,7 +28,7 @@ def install_documentation(path="./bioLEC-Notebooks"):
 
     ## Question - overwrite or not ? shutils fails if directory exists.
 
-    Notebooks_Path = _pkg_resources.resource_filename('bioLEC', 'Notebooks')
+    Notebooks_Path = _pkg_resources.resource_filename('../', 'Notebooks')
 
     ct = _dir_util.copy_tree(Notebooks_Path, path,preserve_mode=1, preserve_times=1, preserve_symlinks=1, update=0, verbose=1, dry_run=0)
 
