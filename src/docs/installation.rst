@@ -20,7 +20,6 @@ The complete list of Dependencies is available in the **src/requirements.txt** f
   numpy>=1.15
   six>=1.11.0
   setuptools>=38.4.0
-  scipy>=1.0.1
   mpi4py>=3.0.0
   pandas>=0.24
   scipy>=1.2
@@ -61,7 +60,6 @@ Navigate into the bioLEC directory and run
 
   $ cd src/
   $ pip install -r requirements.txt
-  $ pip install bioLEC
   $ pip install .
 
 
@@ -97,11 +95,18 @@ Testing installation
 
 A test is provided to check the correct installation of the **bioLEC** package.If you've cloned the source into a directory :code:`bioLEC`, you may verify it as follows:
 
-Run the tests from bioLEC...
+Navigate the the directory `src/tests` and run the tests.
 
 .. code-block:: bash
 
-  $ python2 src/tests/testInstall.py
-  $ python3 src/tests/testInstall.py
+  $ python2 testInstall.py
+  $ python3 testInstall.py
 
 You will need to have all dependencies installed.
+
+The following result indicates success.
+
+.. code-block:: bash
+
+  $ Test bioLEC installation:: [####################] 100.0% DONE
+  $ All tests were successful...
