@@ -6,7 +6,7 @@ For a given landscape, LEC is primarily dependent on **elevation range** and on 
 
 It has been shown that **LEC** captures well the :math:`\alpha`-**diversity variations** observed in mountainous landscape [Lomolino2008]_ and simulated by full **meta-community models** [Bertuzzo2016]_ as shown in the figure below.
 
-.. image:: ../bioLEC/Notebooks/images/pearson.jpg
+.. image:: ../../Notebooks/images/pearson.jpg
    :scale: 20 %
    :alt: LEC versus diversity
    :align: center
@@ -32,7 +32,7 @@ Following Bertuzzo et al. [Bertuzzo2016]_, :math:`C_{ji}` is expressed as:
 
 where :math:`p=[k_1,k_2, ...,k_L]` (with :math:`k_1=j` and :math:`k_L=i`) are the cells comprised in the path *p* from *j* to *i*.
 
-.. image:: ../bioLEC/Notebooks/images/path.jpg
+.. image:: ../../Notebooks/images/path.jpg
    :scale: 20 %
    :alt: LEC computation
    :align: center
@@ -62,7 +62,7 @@ Parallelisation
 
 **Dijkstra’s algorithm** is a graph search algorithm that solves single-source shortest path for a graph with non-negative weights. Such an algorithm can be quite long to solve especially in **bioLEC** as it needs to be used to compute the **least-cost paths** for every points on the surface.
 
-.. image:: ../bioLEC/Notebooks/images/parallel.jpg
+.. image:: ../../Notebooks/images/parallel.jpg
    :scale: 50 %
    :alt: Parallel runtime
    :align: center

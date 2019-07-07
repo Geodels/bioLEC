@@ -12,7 +12,7 @@ bioLEC - *Landscape elevational connectivity*
 
 **bioLEC** is a parallel python package built to calculate the *Landscape elevational connectivity* (**LEC**).
 
-.. image:: ../bioLEC/Notebooks/images/intro.jpg
+.. image:: ../../Notebooks/images/intro.jpg
    :scale: 40 %
    :alt: LEC computation
    :align: center
