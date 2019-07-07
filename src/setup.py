@@ -1,15 +1,3 @@
-## To install locally: python setup.py build && python setup.py install
-## (If there are problems with installation of the documentation, it may be that
-##  the egg file is out of sync and will need to be manually deleted - see error message
-##  for details of the corrupted zip file. )
-##
-## To push a version through to pip.
-##  - Make sure it installs correctly locally as above and to have a recent version of setuptools
-##  - pip install --upgrade setuptools
-##  - Update the version information in this file
-##  - python setup.py sdist
-##  - twine upload dist/*
-
 from setuptools import setup, find_packages
 from numpy.distutils.core import setup, Extension
 from os import path
