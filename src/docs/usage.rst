@@ -20,7 +20,7 @@ The most simple code lines to use **bioLEC** package is summarised below
 Input
 *****
 
-The entry point is the function :code:`landscapeConnectivity()` (see [API](https://biolec.readthedocs.io/en/latest/bioLEC.html#bioLEC.LEC.landscapeConnectivity)) that requires the **elevation** field as it main input.
+The entry point is the function :code:`landscapeConnectivity()` (see `API landscapeConnectivity`_) that requires the **elevation** field as it main input.
 There are 3 ways to import the elevation dataset :
 
 .. image:: ../bioLEC/Notebooks/images/LECres.jpg
@@ -90,9 +90,9 @@ Outputs
   biodiv.writeLEC('result')
   biodiv.viewResult(imName='plot.png')
 
-Once the :code:`computeLEC()` function (see [API](https://biolec.readthedocs.io/en/latest/bioLEC.html#bioLEC.LEC.landscapeConnectivity.computeLEC))has been ran, the result are then available in different forms.
+Once the :code:`computeLEC()` function (see `API compute LEC`_) has been ran, the result are then available in different forms.
 
-From the :code:`writeLEC` function (see [API](https://biolec.readthedocs.io/en/latest/_modules/bioLEC/LEC.html#landscapeConnectivity.writeLEC)), the user can first save the dataset in :code:`CSV` and :code:`VTK` formats containing the X,Y,Z coordinates as well as the computed LEC and normalised LEC (_nLEC_).
+From the :code:`writeLEC` function (see `API write LEC`_), the user can first save the dataset in :code:`CSV` and :code:`VTK` formats containing the X,Y,Z coordinates as well as the computed LEC and normalised LEC (_nLEC_).
 
 Then several figures can be created showing **maps of elevation and LEC values** as well as graphs of LEC and elevation frequency as a function of site elevation (such as the figure presented below). In some functions, one can plot the average and error bars of LEC within elevational bands.
 
@@ -222,6 +222,10 @@ The python script ``runLEC.py`` is provided in the same folder as the Jupyter no
       biodiv.viewLECFrequency(input=args.output,imName=args.output+'_lecfreq.png')
       biodiv.viewLECZbar(input=args.output,imName=args.output+'_lecbar.png')
 
+
+.. _`API landscapeConnectivity`: https://biolec.readthedocs.io/en/latest/bioLEC.html#bioLEC.LEC.landscapeConnectivity
+.. _`API compute LEC`: https://biolec.readthedocs.io/en/latest/bioLEC.html#bioLEC.LEC.landscapeConnectivity.computeLEC
+.. _`API write LEC`: https://biolec.readthedocs.io/en/latest/_modules/bioLEC/LEC.html#landscapeConnectivity.writeLEC
 
 
 .. [Bertuzzo16] E. Bertuzzo, F. Carrara, L. Mari, F. Altermatt, I. Rodriguez-Iturbe & A. Rinaldo -
