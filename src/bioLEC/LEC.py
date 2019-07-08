@@ -48,13 +48,15 @@ class landscapeConnectivity(object):
         XYZ (3D Numpy Array): 3D coordinates array of shape (nn,3) where nn is the number of points [default: None]
         Z (2D Numpy Array): Elevation array of shape (nx,ny) where nx and ny are the number of points  along the X and Y axis [default: None]
         dx (float): grid spacing in metre when the Z argument defined above is used [default: None]
-        periodic (bool):  applied periodic boundary to the elevation grid [default: False]
-        symmetric (bool): applied symmetric boundary to the elevation grid [default: False]
+        periodic (bool):  applied periodic boundary to the elevation grid see explanation_ [default: False]
+        symmetric (bool): applied symmetric boundary to the elevation grid see explanation_ [default: False]
         sigmap (float): species niche width percentage  based on elevation extent [default: 0.1]
         sigmav (float): species niche fixed width values [default: None]
-        connected (bool): computes the path based on the diagonal moves as well as the axial ones [default: True]
+        diagonals (bool): computes the path based on the diagonal moves as well as the axial ones eg. D4/D8 connectivity [default: True]
         delimiter (str):  elevation grid csv delimiter [default: ' ']
         sl (float):  sea level position used to remove marine points from the LEC calculation [default: -1.e6]
+
+    .. _explanation: https://biolec.readthedocs.io/en/latest/_images/boundcond.jpg
 
     caution:
         There are 3 ways to import the elevation dataset in bioLEC:
@@ -64,12 +66,13 @@ class landscapeConnectivity(object):
             * or as a 2D numpy array (argument: Z) containing the elevation matrix, in this case the dx argument is also required
 
     Note:
+        It is worth noting that the boundary conditions are either symmetric or periodic.
         Although LEC simply depends on the elevation field and on the niche width, *LEC predicts well the
         alpha-diversity simulated by full metacommunity models*.
     """
 
     def __init__(self, filename=None, XYZ=None, Z=None, dx=None, periodic=False, symmetric=False,
-                 sigmap=0.1, sigmav=None, connected=True, delimiter=' ', sl=-1.e6, test=False):
+                 sigmap=0.1, sigmav=None, diagonals=True, delimiter=' ', sl=-1.e6, test=False):
 
         # Set MPI communications
         self.comm = MPI.COMM_WORLD
@@ -133,7 +136,13 @@ class landscapeConnectivity(object):
         self.ny = int((self.Y.max() - self.Y.min())/dx+1)
         Z = self.Z.reshape(self.ny,self.nx)
 
-        self.connected = connected
+        if periodic and symmetric:
+            print('Warning: periodic boundary conditions have been set for this experiment!')
+            print('In this current version, boundaries are either symmetric or periodic and cannot be both set to True.')
+            print('See http://biolec.readthedocs.io/en/latest/usage.html#running-examples for more information')
+
+
+        self.diagonals = diagonals
         if periodic:
             periodicZ = np.zeros((Z.shape[0]*3,Z.shape[1]*3))
             kr0 = 0
@@ -242,7 +251,7 @@ class landscapeConnectivity(object):
 
         # From the weight-surface we create a 'landscape graph' object which can then be
         # analysed using distance-weighted minimum cost path
-        cost = graph.MCP_Geometric( weight, fully_connected=self.connected )
+        cost = graph.MCP_Geometric( weight, fully_connected=self.diagonals )
 
         # Calculate the least-cost distance from the start cell to all other cells
         return cost.find_costs(starts=[(r, c)])[0]
