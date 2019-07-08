@@ -12,15 +12,14 @@ bioLEC - *Landscape elevational connectivity*
 
 Understanding how biodiversity formed and evolved is a key challenge in evolutionary and ecological biology [Newbold2016]_. Despite a theoretical consensus on how best to measure biodiversity from a biological perspective (_i.e._ number of species, length of all branches on the tree of life of a species, and differences in allele and genotype frequencies within species) standardised and cost-effective methods for assessing it on a broad range of scales are lacking [Chiarucci2011]_. Estimates of some of theses landscape abiotic properties are already available through standard software such as ArcGIS or QGIS and in more specific mountainous landscape focussed packages such as LSD Topo Tools or pyBadlands.
 
-
-In 2016, a new metric called the Landscape Elevational Connectivity (LEC) was proposed to estimate biodiversity in mountainous landscape [Bertuzzo2016]_. It efficiently measures the landscape resistance to migration and is able to account for up to 70% of biodiversity predicted by meta-community models [Bertuzzo2016]_.
-
-**bioLEC** is a Python package designed to quickly calculate for any mountainous landscape surface and species niche width its associated LEC index. From an elevational fitness perspective, all migratory paths on a flat landscape are equal. This is not the case on a complex landscape where migration can only occur along a network of corridors providing species with their elevational requirements. Hence, predicting how species will disperse across a landscape requires a model of migration that takes into account the physical properties of the landscape, the species fitness range, as well as evolving environmental conditions.
-
 .. image:: ../bioLEC/Notebooks/images/intro.jpg
    :scale: 40 %
    :alt: LEC computation
    :align: center
+
+In 2016, a new metric called the Landscape Elevational Connectivity (LEC) was proposed to estimate biodiversity in mountainous landscape [Bertuzzo2016]_. It efficiently measures the landscape resistance to migration and is able to account for up to 70% of biodiversity predicted by meta-community models [Bertuzzo2016]_.
+
+**bioLEC** is a Python package designed to quickly calculate for any mountainous landscape surface and species niche width its associated LEC index. From an elevational fitness perspective, all migratory paths on a flat landscape are equal. This is not the case on a complex landscape where migration can only occur along a network of corridors providing species with their elevational requirements. Hence, predicting how species will disperse across a landscape requires a model of migration that takes into account the physical properties of the landscape, the species fitness range, as well as evolving environmental conditions.
 
 .. note::
   **LEC** quantifies the closeness of a site to all others with **similar elevation**. It measures how easily a **species living in a given patch can spread and colonise other patches**. It is assumed to be **elevation-dependent** and the metric depends on how often a species adapted to a given elevation *needs to travel outside its optimal elevation range* when moving from its patch to any other in the landscape. **bioLEC** package can be used in serial or parallel to evaluate biodiversity patterns of a given landscape. It is an efficient and easy-to-use tool to quickly assess the capacity of landscape to support biodiversity and to predict species dispersal across mountainous landscapes.

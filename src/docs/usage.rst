@@ -20,7 +20,7 @@ The most simple code lines to use **bioLEC** package is summarised below
 Input
 *****
 
-The entry point is the function :code:`landscapeConnectivity()` that requires the **elevation** field as it main input.
+The entry point is the function :code:`landscapeConnectivity()` (API)[https://biolec.readthedocs.io/en/latest/bioLEC.html#bioLEC.LEC.landscapeConnectivity] that requires the **elevation** field as it main input.
 There are 3 ways to import the elevation dataset :
 
 .. image:: ../bioLEC/Notebooks/images/LECres.jpg
