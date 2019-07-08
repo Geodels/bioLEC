@@ -56,7 +56,7 @@ There are 3 ways to import the elevation dataset :
 In addition to the elevation field, the user could specify the **boundary conditions** used to compute the LEC. Two options are available: :code:`periodic` or :code:`symmetric` boundaries. The way these two boundaries are implemented in **bioLEC** is illustrated in the figure below as well as the impact on the LEC calculation.
 
 .. image:: ../bioLEC/Notebooks/images/boundcond.jpg
-   :scale: 35 %
+   :scale: 30 %
    :alt: boundary conditions
    :align: center
 
