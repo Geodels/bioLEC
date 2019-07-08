@@ -7,3 +7,4 @@ src/docs/_build
 Notebooks/.ipynb_checkpoints/*
 src/bioLEC/Notebooks/.ipynb_checkpoints/*
 src/bioLEC/Notebooks/notebooks/.ipynb_checkpoints/*
+Notebooks/notebooks/.ipynb_checkpoints/*.ipynb

@@ -13,7 +13,7 @@ bioLEC - *Landscape elevational connectivity*
 Understanding how biodiversity formed and evolved is a key challenge in evolutionary and ecological biology [Newbold2016]_. Despite a theoretical consensus on how best to measure biodiversity from a biological perspective (_i.e._ number of species, length of all branches on the tree of life of a species, and differences in allele and genotype frequencies within species) standardised and cost-effective methods for assessing it on a broad range of scales are lacking [Chiarucci2011]_. Estimates of some of theses landscape abiotic properties are already available through standard software such as ArcGIS or QGIS and in more specific mountainous landscape focussed packages such as LSD Topo Tools or pyBadlands.
 
 
-In 2016, a new metric called the Landscape Elevational Connectivity (LEC) was proposed to estimate biodiversity in mountainous landscape [@Bertuzzo:2016]. It efficiently measures the landscape resistance to migration and is able to account for up to 70% of biodiversity predicted by meta-community models [Bertuzzo2016]_.
+In 2016, a new metric called the Landscape Elevational Connectivity (LEC) was proposed to estimate biodiversity in mountainous landscape [Bertuzzo2016]_. It efficiently measures the landscape resistance to migration and is able to account for up to 70% of biodiversity predicted by meta-community models [Bertuzzo2016]_.
 
 **bioLEC** is a Python package designed to quickly calculate for any mountainous landscape surface and species niche width its associated LEC index. From an elevational fitness perspective, all migratory paths on a flat landscape are equal. This is not the case on a complex landscape where migration can only occur along a network of corridors providing species with their elevational requirements. Hence, predicting how species will disperse across a landscape requires a model of migration that takes into account the physical properties of the landscape, the species fitness range, as well as evolving environmental conditions.
 
@@ -51,18 +51,3 @@ Indices and tables
 
 .. [Bertuzzo2016] E. Bertuzzo, F. Carrara, L. Mari, F. Altermatt, I. Rodriguez-Iturbe & A. Rinaldo -
   Geomorphic controls on species richness. PNAS, 113(7) 1737-1742, `DOI: 10.1073/pnas.1518922113`_, 2016.
-
-.. [Dijkstra1959] E.W. Dijkstra -
-  A note on two problems in connexion with graphs. Numer. Math. 1, 269-271, `DOI: 10.1007/BF01386390`_, 1959.
-
-.. [Etherington2016] T.R. Etherington -
-  Least-cost modelling and landscape ecology: concepts, applications, and opportunities. Current Landscape Ecology Reports 1:40-53, `DOI: 10.1007/s40823-016-0006-9`_, 2016.
-
-.. [Etherington2017] T.R. Etherington -
-  Least-cost modelling with Python using scikit-image, Blog_, 2017.
-
-.. [Lomolino2008] M.V. Lomolino -
-  Elevation gradients of species-density: historical and prospective views. Glob. Ecol. Biogeogr. 10, 3-13, `DOI: 10.1046/j.1466-822x.2001.00229.x`_, 2008.
-
-.. [vanderWalt2014] S. van der Walt, J.L. Schönberger, J. Nunez-Iglesias, F. Boulogne, J.D. Warner, N. Yager, E. Gouillart & T. Yu -
-  Scikit Image Contributors - scikit-image: image processing in Python, `PeerJ 2:e453`_, 2014.
