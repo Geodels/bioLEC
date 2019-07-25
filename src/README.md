@@ -3,6 +3,7 @@
 [![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/geodels/biolec.svg)](https://hub.docker.com/r/geodels/biolec)
 [![PyPI](https://img.shields.io/pypi/v/bioLEC.svg)](https://pypi.org/project/bioLEC/) [![Documentation Status](https://readthedocs.org/projects/biolec/badge/?version=latest)](https://biolec.readthedocs.io/en/latest/?badge=latest)
 [![DOI](https://zenodo.org/badge/185154268.svg)](https://zenodo.org/badge/latestdoi/185154268)
+[![DOI](http://joss.theoj.org/papers/10.21105/joss.01530/status.svg)](https://doi.org/10.21105/joss.01530)
 
 **bioLEC** documentation is found at [**biolec.readthedocs.io**](https://biolec.readthedocs.io/)
 
